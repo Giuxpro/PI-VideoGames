@@ -8,37 +8,6 @@ const {API_KEY} = process.env;
 
 const router = Router();
 
-// Configurar los routers
-// Ejemplo: router.use('/auth', authRouter);
-
-// const getApiInfo = async () =>{
-// try{
-//     const apiUrl = await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`);
-//     // const apiInfo1 = await axios.get(apiUrl.data.info.next)
-//     const apiInfo = await apiUrl.data.results.map( (e) => {
-
-//         const objInfo ={
-
-//             id: e.id,
-//             img: e.background_image,
-//             name: e.name,
-//             released: e.released,
-//             rating: e.rating,
-//             platforms: e.platforms.map(e => e.platform.name),
-//             genres: e.genres.map( e => e.name),
-//             description: e.description,
-//             // requirements:e.requirements_en? Object.keys(e.requirements_en): "Requirement Not Found",
-//         }
-
-//         return objInfo;
-//     })
-//     //console.log(apiInfo)
-//     return apiInfo;
-// }catch(error){
-//     console.log(error);
-    
-// }
-// }
 
 const getApiInfo = async () => {
     let result = []; //uno por uno con su respectiva info
@@ -60,7 +29,7 @@ const getApiInfo = async () => {
                 const objInfo ={
 
                     id: e.id,
-                    img: e.background_image,
+                    image: e.background_image,
                     name: e.name,
                     released: e.released,
                     rating: e.rating,
@@ -81,8 +50,8 @@ const getApiInfo = async () => {
 }
 
 const getDbInfo = async ()=> {
-    return await Videogame.findAll({
-        includes: {
+    let infoDb =await Videogame.findAll({
+        include: {
             model: Genre,
             attributes:["name"],
             through: {
@@ -90,7 +59,21 @@ const getDbInfo = async ()=> {
             },
         },
     });
+    console.log(infoDb[0])
+    //retorno los datos necesarios para los juegos de la DB
+    infoDb = infoDb.map(({ id, name, released, rating, platforms, genres, image }) => ({ 
+      id,
+      name,
+      released,
+      rating,
+      platforms,
+      image,
+      genres: genres.map((e) => e.name),
+    }));
+    return infoDb
 };
+
+
 
 const allGamesInfo = async () =>{
     const allApiInfo = await getApiInfo();
@@ -151,20 +134,23 @@ router.get("/genres", async (req,res) =>{
         });
       }
       let allGenres = await Genre.findAll();
+      console.log(allGenres)
       res.status(200).json(allGenres);
 
 })
 
 router.post("/videogame", async (req,res) =>{
-    const { name, img, description, released, rating, genres, platforms } = req.body;
+    const { id, name, image, description, released, rating, genres, platforms } = req.body;
    try{ 
-    const newVideogame = await Videogame.create({
+    let newVideogame = await Videogame.create({
+        id,
         name,
         description,
-        img,
+        image,
         released,
         rating,
         platforms,
+        
 
     })
 
@@ -173,12 +159,10 @@ router.post("/videogame", async (req,res) =>{
         where: {name: genres }
     
     });
-    
-     newVideogame.addGenre(findGenres);
-   
+    //console.log(findGenres)
+    newVideogame.addGenres(findGenres);
     res.send("VideoGame Created Successfully")
-    
-    
+      
 }catch(error){
     console.log(error)
     console.log("Error en la ruta de Post")
