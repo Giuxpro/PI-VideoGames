@@ -25,7 +25,7 @@ module.exports = (sequelize) => {
       type: DataTypes.FLOAT,
     },
     platforms: {
-      type: DataTypes.ARRAY(DataTypes.JSON),
+      type: DataTypes.ARRAY(DataTypes.STRING),
     },
     createdDb: {
       type: DataTypes.BOOLEAN,

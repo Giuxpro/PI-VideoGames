@@ -11,33 +11,73 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
-const getApiInfo = async () =>{
-try{
-    const apiUrl = await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`);
-    // const apiInfo1 = await axios.get(apiUrl.data.info.next)
-    const apiInfo = await apiUrl.data.results.map( (e) => {
+// const getApiInfo = async () =>{
+// try{
+//     const apiUrl = await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`);
+//     // const apiInfo1 = await axios.get(apiUrl.data.info.next)
+//     const apiInfo = await apiUrl.data.results.map( (e) => {
 
-        const objInfo ={
+//         const objInfo ={
 
-            id: e.id,
-            img: e.background_image,
-            name: e.name,
-            released: e.released,
-            rating: e.rating,
-            platforms: e.platforms.map(e => e.platform.name),
-            genre: e.genres.map( e => e.name),
-            description: e.description,
-            // requirements:e.requirements_en? Object.keys(e.requirements_en): "Requirement Not Found",
-        }
+//             id: e.id,
+//             img: e.background_image,
+//             name: e.name,
+//             released: e.released,
+//             rating: e.rating,
+//             platforms: e.platforms.map(e => e.platform.name),
+//             genres: e.genres.map( e => e.name),
+//             description: e.description,
+//             // requirements:e.requirements_en? Object.keys(e.requirements_en): "Requirement Not Found",
+//         }
 
-        return objInfo;
-    })
-    //console.log(apiInfo)
-    return apiInfo;
-}catch(error){
-    console.log(error);
+//         return objInfo;
+//     })
+//     //console.log(apiInfo)
+//     return apiInfo;
+// }catch(error){
+//     console.log(error);
     
-}
+// }
+// }
+
+const getApiInfo = async () => {
+    let result = []; //uno por uno con su respectiva info
+    let querries = []; //5 paginas de 20c/u = 100 arreglos de videojuegos
+    let page = [1, 2, 3, 4, 5];
+  
+    page.forEach((e) => {
+      querries.push(
+        axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&page=${e}`)
+      );
+    });
+  
+    await Promise.all(querries)
+      .then((e) => { //100
+        e.forEach((e) => {
+          let res = e.data;
+          result.push(
+            ...res.results.map((e) => {
+                const objInfo ={
+
+                    id: e.id,
+                    img: e.background_image,
+                    name: e.name,
+                    released: e.released,
+                    rating: e.rating,
+                    platforms: e.platforms.map(e => e.platform.name),
+                    genres: e.genres.map( e => e.name),
+                    description: e.description,
+                    // requirements:e.requirements_en? Object.keys(e.requirements_en): "Requirement Not Found",
+                }
+                    
+                return objInfo;
+            })
+          );
+        });
+      })
+      .then(() => result)
+      .catch((error) => console.log(error));
+    return result;
 }
 
 const getDbInfo = async ()=> {
@@ -97,30 +137,52 @@ router.get("/videogame/:id", async (req,res) =>{
 })
 
 router.get("/genres", async (req,res) =>{
-    const genreApi = await axios.get(`https://api.rawg.io/api/games?key=${API_KEY}`);
+   
+    const apiGenreInfo = await axios.get(
+        `https://api.rawg.io/api/genres?key=${API_KEY}`
+      );
+      const { results } = apiGenreInfo.data;
+      //Itero cada uno de los resultados para extraer las propiedades name, si existe no la creo y si no existe la creo
+      for (let i = 0; i < results.length; i++) {
+        const { name } = results[i];
+        // console.log(results[i]);
+        await Genre.findOrCreate({
+          where: { name: name },
+        });
+      }
+      let allGenres = await Genre.findAll();
+      res.status(200).json(allGenres);
 
-    let genreArr = [];
-    const infoApi = await genreApi.data.results.map(e => e.genres.map(e => {
-        if(e.name){
-            genreArr.push(e.name)
-        }
+})
+
+router.post("/videogame", async (req,res) =>{
+    const { name, img, description, released, rating, genres, platforms } = req.body;
+   try{ 
+    const newVideogame = await Videogame.create({
+        name,
+        description,
+        img,
+        released,
+        rating,
+        platforms,
+
     })
-    );
 
-    console.log(genreArr)
-    genreArr.forEach(e => {
+    let findGenres = await Genre.findAll({
         
-            Genre.findOrCreate({
-                where:{ name: e},
-            });
-        
-    });
-
-    const allGenres = await Genre.findAll();
-    res.status(200).json(allGenres);
-
+        where: {name: genres }
     
-
+    });
+    
+     newVideogame.addGenre(findGenres);
+   
+    res.send("VideoGame Created Successfully")
+    
+    
+}catch(error){
+    console.log(error)
+    console.log("Error en la ruta de Post")
+}
 })
 
 module.exports = router;
