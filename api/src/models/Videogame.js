@@ -10,6 +10,9 @@ module.exports = (sequelize) => {
       allowNull: false,
       primaryKey: true,
     },
+    image:{
+      type: DataTypes.STRING
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -27,7 +30,7 @@ module.exports = (sequelize) => {
     platforms: {
       type: DataTypes.ARRAY(DataTypes.STRING),
     },
-    createdDb: {
+    createInDb: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
       defaultValue: true,

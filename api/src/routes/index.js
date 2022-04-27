@@ -36,6 +36,7 @@ const getApiInfo = async () => {
                     platforms: e.platforms.map(e => e.platform.name),
                     genres: e.genres.map( e => e.name),
                     description: e.description,
+                    
                     // requirements:e.requirements_en? Object.keys(e.requirements_en): "Requirement Not Found",
                 }
                     
@@ -60,8 +61,9 @@ const getDbInfo = async ()=> {
         },
     });
     console.log(infoDb[0])
-    //retorno los datos necesarios para los juegos de la DB
-    infoDb = infoDb.map(({ id, name, released, rating, platforms, genres, image }) => ({ 
+   // retorno los datos necesarios para los juegos de la DB
+    infoDb = infoDb.map(({ createInDb, id, name, released, rating, platforms, genres, image }) => ({ 
+      createInDb,
       id,
       name,
       released,
@@ -150,6 +152,7 @@ router.post("/videogame", async (req,res) =>{
         released,
         rating,
         platforms,
+       
         
 
     })
@@ -161,7 +164,8 @@ router.post("/videogame", async (req,res) =>{
     });
     //console.log(findGenres)
     newVideogame.addGenres(findGenres);
-    res.send("VideoGame Created Successfully")
+    //res.send("VideoGame Created Successfully")
+    res.send(newVideogame)
       
 }catch(error){
     console.log(error)
