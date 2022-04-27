@@ -2,7 +2,7 @@ import React from "react"
 import { useState,useEffect } from "react"
 import {useDispatch, useSelector} from "react-redux"
 import {Link} from "react-router-dom";
-import { getVideoGame, getGenres } from "../actions"
+import { getVideoGame, getGenres, filterVideoGameByGenres, filterByCreated,orderByName } from "../actions"
 import Card from "./Card"
 import Paginado from "./Paginado";
 import GenreSelectOption from "./Genres"
@@ -12,6 +12,7 @@ export default function Home(){
     const dispatch = useDispatch()
     const allVideoGames = useSelector(state => state.videogames);
     const allGenres = useSelector(state => state.genres);
+    const [orden, setOrden]= useState("")
 
     //Seteo el paginado aqui y luego aplico la logica en el componente Paginado
     const [currentPage, setCurrentPage] = useState(1);
@@ -36,6 +37,22 @@ export default function Home(){
         e.preventDefault();
         dispatch(getVideoGame())
     }
+    function handleFilterGenres(e){
+        // e.preventDefault();
+        dispatch(filterVideoGameByGenres(e.target.value))
+    }
+    function handleFilterCreated(e){
+        e.preventDefault();
+        dispatch(filterByCreated(e.target.value))
+        //setCurrentPage(1)
+    }
+    function handleSort(e){
+        e.preventDefault();
+        dispatch(orderByName(e.target.value));
+        setCurrentPage(1);
+        setOrden(`Ordenado ${e.target.value}`)
+    }
+
 
     return(
         <div>
@@ -52,23 +69,29 @@ export default function Home(){
                 />
             </div>
             <div>
-                <select>
+                <select onChange={e => handleSort(e)}>
                     <option>Alphabetically Sort</option>
-                    <option value="ascendente">Sort:  A - Z</option>
-                    <option value="descendente">Sort:  Z - A</option>
+                    <option value="asc">Sort:  A - Z</option>
+                    <option value="des">Sort:  Z - A</option>
                 </select>
-                <select>
-                    <option>Games</option>
-                    <option value="existentes">All</option>
-                    <option value="creados">Created</option>
+                <select onChange={e => handleFilterCreated(e)}>
+                    <option value="Games">Games</option>
+                    <option value="All">All</option>
+                    <option value="api">Games Api</option>
+                    <option value="Created">Created</option>
                 </select>
                 <select>
                     <option>Rating</option>
                     <option value="hight">Hight Rating</option>
                     <option value="low">Low Rating</option>
                 </select>
-                
-                <GenreSelectOption allGenres={allGenres}/>
+                <select onChange={e => handleFilterGenres(e)}>
+                    <option value="Genres">Genres</option>
+                    <option value="All">All</option>
+                    <GenreSelectOption 
+                        allGenres={allGenres}  
+                    />
+                </select>
                 
                 
                 {

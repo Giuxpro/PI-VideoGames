@@ -1,17 +1,18 @@
 import React from "react";
-// import { getGenres } from "../actions"
-// import {useDispatch, useSelector} from "react-redux"
-// import { useEffect } from "react"
+
+
 
 export default function GenreSelectOption({allGenres}){
     
 return(
-    <select>
-        <option>Genres</option>
+    // <select>
+    //     <option>Genres</option>
+    //     <option value="All">All</option>
+    <>
         {
             allGenres?.map(e =>{
                 return(
-                    <option key={e.id}>
+                    <option key={e.id} value={e.name} >
                     
                         {
                             e.name
@@ -20,7 +21,8 @@ return(
                 )
             })
         }
-    </select>
+    </>
+    // </select>
 )
 
 }
