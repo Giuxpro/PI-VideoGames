@@ -164,8 +164,8 @@ router.post("/videogame", async (req,res) =>{
     });
     //console.log(findGenres)
     newVideogame.addGenres(findGenres);
-    //res.send("VideoGame Created Successfully")
-    res.send(newVideogame)
+    res.send("VideoGame Created Successfully")
+    //res.send(newVideogame)
       
 }catch(error){
     console.log(error)
