@@ -2,10 +2,11 @@ import React from "react"
 import { useState,useEffect } from "react"
 import {useDispatch, useSelector} from "react-redux"
 import {Link} from "react-router-dom";
-import { getVideoGame, getGenres, filterVideoGameByGenres, filterByCreated,orderByName } from "../actions"
+import { getVideoGame, getGenres, filterVideoGameByGenres, filterByCreated, orderByName, orderByRating } from "../actions"
 import Card from "./Card"
 import Paginado from "./Paginado";
 import GenreSelectOption from "./Genres"
+import SearchBar from "./SearchBar";
 
 
 export default function Home(){
@@ -38,34 +39,42 @@ export default function Home(){
         dispatch(getVideoGame())
     }
     function handleFilterGenres(e){
-        // e.preventDefault();
+        
         dispatch(filterVideoGameByGenres(e.target.value))
+        
     }
     function handleFilterCreated(e){
         e.preventDefault();
         dispatch(filterByCreated(e.target.value))
-        //setCurrentPage(1)
+        setCurrentPage(1)
     }
     function handleSort(e){
-        e.preventDefault();
+        
         dispatch(orderByName(e.target.value));
         setCurrentPage(1);
+        setOrden(`Ordenado ${e.target.value}`)
+    }
+    function handleSortByRating(e){
+        dispatch(orderByRating(e.target.value));
         setOrden(`Ordenado ${e.target.value}`)
     }
 
 
     return(
         <div>
-            <Link to="/videogames">Crear VideoGame</Link>
+            <Link to="/videogame">Crear VideoGame</Link>
             <h1>Giusepp Game</h1>
             <button onClick={(e)=>handleClick(e)}>
                 Cargar VideoGame
             </button>
             <div>
+                <SearchBar/>
+            </div>
+            <div>
                 <Paginado
                     videoGamesPage={videoGamesPage}
                     allVideoGames={allVideoGames.length}
-                    paginado={Paginado}
+                    paginado={paginado}
                 />
             </div>
             <div>
@@ -80,10 +89,10 @@ export default function Home(){
                     <option value="api">Games Api</option>
                     <option value="Created">Created</option>
                 </select>
-                <select>
-                    <option>Rating</option>
-                    <option value="hight">Hight Rating</option>
-                    <option value="low">Low Rating</option>
+                <select onChange={ e => handleSortByRating(e)}>
+                    <option value="Rating">Rating</option>
+                    <option value="Hight">Hight Rating</option>
+                    <option value="Low">Low Rating</option>
                 </select>
                 <select onChange={e => handleFilterGenres(e)}>
                     <option value="Genres">Genres</option>
