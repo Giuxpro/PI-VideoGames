@@ -3,9 +3,11 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { getNameVideoGame } from "../actions";
 
+
 export default function SearchBar(){
     const dispatch = useDispatch();
     const [name,setName] = useState("")
+
 
 
     function handleInputChange(e){
@@ -19,7 +21,7 @@ export default function SearchBar(){
         e.preventDefault();
         dispatch(getNameVideoGame(name))
         setName("")
-        
+    
     }
 
     return(

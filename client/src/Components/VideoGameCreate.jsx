@@ -1,7 +1,39 @@
 import React, {useState, useEffect} from "react";
 import {Link, useHistory} from "react-router-dom";
-import {postVideoGame, getGenres, getVideoGame, backUpGames} from "../actions/index";
+import {postVideoGame, getGenres, getVideoGame} from "../actions/index";
 import {useDispatch, useSelector} from "react-redux";
+
+
+
+
+function Validate(input){
+    let errors = {};
+    
+    let regexName = /^\b[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;   
+    let regexDescription = /^\b[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;// regex initial Space: null, Mayus, min, space betw: true
+    let regexReleased = /[012345]{1,8}/;
+    let regexRating =/[+-]?([0-9]*[.])?\b[0-5]{1,1}\b/; //regex 1-5 decimal inclusive
+    
+
+    if(!regexName.test(input.name)){
+        errors.name = "Name required";
+    }
+    else if(!regexDescription.test(input.description)){
+        errors.description = "Descripcion required"
+    }
+    else if(!regexReleased.test(input.released)){
+        errors.released = "Released date required"
+    }
+    else if(!regexRating.test(input.rating)){
+    errors.rating = "Rating required (1-5)"
+    }
+    
+
+
+    return errors;
+}
+
+
 
 
 export default function VideoGamesCreate() {
@@ -11,7 +43,8 @@ export default function VideoGamesCreate() {
     const allGames = useSelector(state => state.videogames);
     
     
-
+    const [errorValidated, setErrorValidated] = useState({})
+    const [errorButton, setErrorButton] = useState(errorValidated.length < 1? false : true);
     const [input, setInput] = useState({
         
         name:"",
@@ -34,22 +67,33 @@ export default function VideoGamesCreate() {
     function handleChange(e){
         
         setInput({ 
-            ...input,
-            [e.target.name]: e.target.value
+              ...input,
+                [e.target.name]: e.target.value
+            
         })
-        console.log(input)
+       setErrorValidated(Validate(input))
+       console.log(input)
     }
 
     function handleSelectForGenres(e){
         setInput({
             ...input,
             genres: [...input.genres, e.target.value]
+            
         })
-        console.log(input)
+        
+    }
+
+    function handleGenresDelete(e){
+        setInput({
+            ...input,
+            genres: input.genres.filter(gen => gen !== e)
+        })
     }
 
     function handleSubmit(e){
         e.preventDefault()
+        setErrorValidated(Validate(input))
         dispatch(postVideoGame(input))
         alert("VideoGame Created Successfully")
         setInput({
@@ -64,10 +108,10 @@ export default function VideoGamesCreate() {
         history.push("/home")
     }
 
-    const setArr = [];
-    const setArr2 = [];
-    const setGames = allGames.map(e => e.platforms.map(e => setArr.push(e)))
-    let newSet = new Set(setArr)
+    // const setArr = [];
+    // const setArr2 = [];
+    // const setGames = allGames.map(e => e.platforms.map(e => setArr.push(e)))
+    // let newSet = new Set(setArr)
     
   
                
@@ -75,7 +119,7 @@ export default function VideoGamesCreate() {
 
     return(
         <div>
-            <Link to="/home"><button>Return</button></Link>
+            
             <h1>Create VideoGame</h1>
 
             <form onSubmit={e => handleSubmit(e)}>
@@ -88,26 +132,29 @@ export default function VideoGamesCreate() {
                             name="name"
                             onChange={e =>handleChange(e)}
                         />
+                        {errorValidated.name? <h4>{errorValidated.name}</h4>: false}
                     </div>
                     {/* --------------------------------------- */}
                     <div>
                         <label htmlFor="description">Description: </label>
-                        <input 
+                        <textarea 
                             type="text" 
                             value={input.description}
                             name="description"
                             onChange={e =>handleChange(e)}
-                        />  
+                        />
+                        {errorValidated.description? <h4>{errorValidated.description}</h4>: false} 
                     </div>
                     {/* --------------------------------------- */}
                     <div>
                         <label htmlFor="released">Released: </label>
                         <input 
-                            type="text" 
+                            type="date" 
                             value={input.released}
                             name="released"
                             onChange={e =>handleChange(e)}
                         />
+                        {errorValidated.released? <h4>{errorValidated.released}</h4>: false}
                     </div>
                     {/* ---------------------------------------- */}
                     <div>
@@ -118,6 +165,7 @@ export default function VideoGamesCreate() {
                                 name="rating"
                                 onChange={e =>handleChange(e)}
                             />
+                            {errorValidated.rating? <h4>{errorValidated.rating}</h4>: false}
                         </div>
                     {/* --------------------------------------- */}
                     <div>
@@ -132,36 +180,44 @@ export default function VideoGamesCreate() {
                     {/* --------------------------------------- */}
                     <div>
                         <select onChange={e =>handleSelectForGenres(e)}>
-                            <option>Genres</option>
+                            <option value="gen">Genres</option>
                             {   allGenres.map( e =>(
                                      <option key={e.id} value={e.name}>{e.name}</option>
                                 ))  
                             } 
                         </select> 
                         {/* REPARAR ESTE UL PARA Q NO TRAIGA REPETIDAS */}
-                        <ul><li>{input.genres.map(e => e + " | ")}</li></ul>
+                        <ul><li>{input.genres.map(e => e  + " | ")}</li></ul>
                     </div>
                     {/* --------------------------------------- */}
                     {/* REPARAR ESTE INPUT DE ABAJO NO FUNCIONA!! */}
                     <div>
                         <select >
                             <option>Platforms</option>
-                            { (
+                            {/* { (
 
                                 <option value={newSet}>{}</option>
                             )
                             
 
-                            }
+                            } */}
                             
                         </select> 
                     </div>
                     {/* --------------------------------------- */}
                     
-                    <button type="submit" >Create VideoGame</button>
+                    <Link to="/home"><button>Return</button></Link>
+                    <button type="submit" disabled={errorButton}>Create VideoGame</button>
                     
                 </div>
             </form>
+
+            {input.genres.map(e =>
+                    <div>
+                        <p>{e}</p>
+                        <button onClick={()=> handleGenresDelete(e)}>X</button>
+                    </div>
+                )}
         </div>
     )
 }

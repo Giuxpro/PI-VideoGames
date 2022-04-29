@@ -37,27 +37,30 @@ export default function Home(){
     function handleClick(e){
         e.preventDefault();
         dispatch(getVideoGame())
+        setCurrentPage(1)
     }
     function handleFilterGenres(e){
         
         dispatch(filterVideoGameByGenres(e.target.value))
-        
+        setCurrentPage(1)
     }
     function handleFilterCreated(e){
-        e.preventDefault();
+        //e.preventDefault();
         dispatch(filterByCreated(e.target.value))
         setCurrentPage(1)
     }
     function handleSort(e){
-        
+        //e.preventDefault()
         dispatch(orderByName(e.target.value));
-        setCurrentPage(1);
         setOrden(`Ordenado ${e.target.value}`)
+        setCurrentPage(1)
     }
     function handleSortByRating(e){
         dispatch(orderByRating(e.target.value));
         setOrden(`Ordenado ${e.target.value}`)
+        setCurrentPage(1)
     }
+    
 
 
     return(
@@ -68,7 +71,9 @@ export default function Home(){
                 Cargar VideoGame
             </button>
             <div>
-                <SearchBar/>
+                <SearchBar 
+                
+                />
             </div>
             <div>
                 <Paginado
@@ -79,13 +84,12 @@ export default function Home(){
             </div>
             <div>
                 <select onChange={e => handleSort(e)}>
-                    <option>Alphabetically Sort</option>
+                    <option value="alpha">Alphabetically Sort</option>
                     <option value="asc">Sort:  A - Z</option>
                     <option value="des">Sort:  Z - A</option>
                 </select>
                 <select onChange={e => handleFilterCreated(e)}>
-                    <option value="Games">Games</option>
-                    <option value="All">All</option>
+                    <option value="Games">All Games</option>
                     <option value="api">Games Api</option>
                     <option value="Created">Created</option>
                 </select>
@@ -95,8 +99,7 @@ export default function Home(){
                     <option value="Low">Low Rating</option>
                 </select>
                 <select onChange={e => handleFilterGenres(e)}>
-                    <option value="Genres">Genres</option>
-                    <option value="All">All</option>
+                    <option value="Genres">All Genres</option>
                     <GenreSelectOption 
                         allGenres={allGenres}  
                     />

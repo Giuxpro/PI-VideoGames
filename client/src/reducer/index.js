@@ -23,7 +23,7 @@ function rootReducer (state= initialState, action){
 
         case "FILTER_BY_GENRE":
             const allVideoGames = state.backUpGames;
-            const genreFiltered = action.payload === "All" || action.payload === "Genres" ? allVideoGames : allVideoGames.filter(e => e.genres?.includes(action.payload))
+            const genreFiltered = action.payload === "Genres" ? allVideoGames : allVideoGames.filter(e => e.genres?.includes(action.payload))
             return{
                 ...state,
                 videogames: genreFiltered,
@@ -37,30 +37,32 @@ function rootReducer (state= initialState, action){
             console.log(createdFilter)
             return{
                 ...state,
-                videogames: action.payload === "All" || action.payload === "Games" ? state.backUpGames : createdFilter
+                videogames: action.payload === "Games" ? state.backUpGames : createdFilter
             }
 
         case  "ORDER_BY_NAME":
-            let sortGame = action.payload === "des"
-            ? state.videogames.sort(function(a,b){
+            let sortGame = action.payload === "asc" || action.payload === "alpha"
+            ? state.videogames.sort((a,b) =>{
+
+                if(a.name.toUpperCase() > b.name.toUpperCase()){
+                    return 1;
+                }
+                if(a.name.toUpperCase() < b.name.toUpperCase()){
+                    return -1;
+                }
+                return 0;
                 
-                if(a.name > b.name){
+               
+            }): state.videogames.sort((a,b)=>{
+
+                if(a.name.toUpperCase() > b.name.toUpperCase()){
                     return -1;
                 }
-                if(a.name < b.name){
+                if(a.name.toUpperCase() < b.name.toUpperCase()){
                     return 1;
                 }
                 return 0;
 
-            }): state.videogames.sort(function(a,b){
-
-                if(a.name > b.name){
-                    return 1;
-                }
-                if(a.name < b.name){
-                    return -1;
-                }
-                return 0;
             })
             return{
                 ...state,
@@ -68,10 +70,9 @@ function rootReducer (state= initialState, action){
             }
         
         case "ORDER_BY_RATING":
-            // const allVideoGames3 = state.backUpGames;
-            // const allRatingSort = allVideoGames3
+            
             let sortByRating = action.payload === "Low"
-            ? state.videogames.sort(function(a,b){
+            ? state.videogames.sort((a,b)=>{
                 
                 if(a.rating > b.rating){
                     return -1;
@@ -81,7 +82,7 @@ function rootReducer (state= initialState, action){
                 }
                 return 0;
 
-            }): state.videogames.sort(function(a,b){
+            }): state.videogames.sort((a,b)=>{
 
                 if(a.rating > b.rating){
                     return 1;
