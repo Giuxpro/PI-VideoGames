@@ -91,6 +91,20 @@ export default function VideoGamesCreate() {
         })
     }
 
+    function handleSelectForPlatform(e){
+        setInput({
+            ...input,
+            platforms: [input.platforms, e.target.value]
+        })
+    }
+
+    function handlePlatformDelete(e){
+        setInput({
+            ...input,
+            platforms: input.platforms.filter(plat => plat !== e)
+        })
+    }
+
     function handleSubmit(e){
         e.preventDefault()
         setErrorValidated(Validate(input))
@@ -108,13 +122,14 @@ export default function VideoGamesCreate() {
         history.push("/home")
     }
 
-    // const setArr = [];
-    // const setArr2 = [];
-    // const setGames = allGames.map(e => e.platforms.map(e => setArr.push(e)))
-    // let newSet = new Set(setArr)
+    const setArr = [];
+    const setArr2 = [];
+     allGames.map(e => e.platforms?.map(e => setArr.push(e)))
+    let newSet = [...new Set(setArr)]
+    if(newSet !== []){
+        setArr2.push(newSet)
+    }
     
-  
-               
     
 
     return(
@@ -186,38 +201,45 @@ export default function VideoGamesCreate() {
                                 ))  
                             } 
                         </select> 
-                        {/* REPARAR ESTE UL PARA Q NO TRAIGA REPETIDAS */}
-                        <ul><li>{input.genres.map(e => e  + " | ")}</li></ul>
-                    </div>
-                    {/* --------------------------------------- */}
-                    {/* REPARAR ESTE INPUT DE ABAJO NO FUNCIONA!! */}
-                    <div>
-                        <select >
-                            <option>Platforms</option>
-                            {/* { (
-
-                                <option value={newSet}>{}</option>
-                            )
-                            
-
-                            } */}
-                            
-                        </select> 
+                        
+                        {/* <ul><li>{input.genres.map(e => e  + " | ")}</li></ul> */}
+                        {input.genres.map(e =>
+                            <div key={e}>
+                                <p>{e}</p>
+                                <button onClick={()=> handleGenresDelete(e)}>X</button>
+                            </div>
+                        )}
                     </div>
                     {/* --------------------------------------- */}
                     
-                    <Link to="/home"><button>Return</button></Link>
+                    <div>
+                        <select onChange={e => handleSelectForPlatform(e)}>
+                            <option value="plat">Platforms</option>
+                            { newSet.map(e => (
+
+                                <option key={e} value={e}>{e}</option>
+                             ))
+                                
+                            }
+                            
+               
+                        </select> 
+                        {/* <ul><li>{input.platforms?.map(e => e  + " | ")}</li></ul> */}
+                        {input.platforms.map(e =>
+                            <div key={e}>
+                                <p>{e}</p>
+                                <button onClick={()=> handlePlatformDelete(e)}>X</button>
+                            </div>
+                        )}
+                    </div>
+                    {/* --------------------------------------- */}
+                    
+                    <Link to="/home"><button>Back</button></Link>
                     <button type="submit" disabled={errorButton}>Create VideoGame</button>
                     
                 </div>
             </form>
 
-            {input.genres.map(e =>
-                    <div>
-                        <p>{e}</p>
-                        <button onClick={()=> handleGenresDelete(e)}>X</button>
-                    </div>
-                )}
         </div>
     )
 }

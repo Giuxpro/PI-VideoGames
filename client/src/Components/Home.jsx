@@ -45,9 +45,9 @@ export default function Home(){
         setCurrentPage(1)
     }
     function handleFilterCreated(e){
-        //e.preventDefault();
+        e.preventDefault();
         dispatch(filterByCreated(e.target.value))
-        setCurrentPage(1)
+         //setCurrentPage(1)
     }
     function handleSort(e){
         //e.preventDefault()
@@ -116,6 +116,7 @@ export default function Home(){
                                         name={e.name} 
                                         image={e.image} 
                                         genres={e.genres}
+                                        rating={e.rating}
                                     />
                                 </Link>
                             </div>
