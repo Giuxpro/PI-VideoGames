@@ -7,6 +7,9 @@ import Card from "./Card"
 import Paginado from "./Paginado";
 import GenreSelectOption from "./Genres"
 import SearchBar from "./SearchBar";
+import styles from "./Home.module.css"
+import imgLogo1 from "../Image/logo1.jpg"
+import imgLogo3 from "../Image/logo3.jpg"
 
 
 export default function Home(){
@@ -64,16 +67,23 @@ export default function Home(){
 
 
     return(
-        <div>
-            <Link to="/videogame">Crear VideoGame</Link>
-            <h1>Giusepp Game</h1>
-            <button onClick={(e)=>handleClick(e)}>
-                Cargar VideoGame
-            </button>
-            <div>
-                <SearchBar 
-                
-                />
+        <div className={styles.homeContainer}>
+            <div className={styles.homeTitleAndSearch}>
+                <div className={styles.homeImg1}>
+                    <img  className={styles.homeImg1} src={imgLogo1} alt="File Not Found" />
+                </div>
+                <div className={styles.homeTitle}>
+                    <h1 className={styles.homeTitle1}>Giux Games</h1>
+
+                </div>
+                <div className={styles.homeSearchBar}>
+                    <SearchBar/>  
+                </div>
+                <div className={styles.homeImg2}>
+                    <img className={styles.homeImg2} src={imgLogo3} alt="File Not Found" />
+                </div>
+
+
             </div>
             <div>
                 <Paginado
@@ -82,50 +92,58 @@ export default function Home(){
                     paginado={paginado}
                 />
             </div>
-            <div>
-                <select onChange={e => handleSort(e)}>
-                    <option value="alpha">Alphabetically Sort</option>
-                    <option value="asc">Sort:  A - Z</option>
-                    <option value="des">Sort:  Z - A</option>
-                </select>
-                <select onChange={e => handleFilterCreated(e)}>
-                    <option value="Games">All Games</option>
-                    <option value="api">Games Api</option>
-                    <option value="Created">Created</option>
-                </select>
-                <select onChange={ e => handleSortByRating(e)}>
-                    <option value="Rating">Rating</option>
-                    <option value="Hight">Hight Rating</option>
-                    <option value="Low">Low Rating</option>
-                </select>
-                <select onChange={e => handleFilterGenres(e)}>
-                    <option value="Genres">All Genres</option>
-                    <GenreSelectOption 
-                        allGenres={allGenres}  
-                    />
-                </select>
-                
-                
-                {
-                  currentVideoGames?.map( (e) => {
-                        return(
-                            <div key={e.id}>
-                                <Link to={"/home/" + e.id}>
-                                    
-                                    <Card  
-                                        name={e.name} 
-                                        image={e.image} 
-                                        genres={e.genres}
-                                        rating={e.rating}
-                                    />
-                                </Link>
-                            </div>
-                        )
-                    })
+           
+           <div className={styles.homeSideAndCards}> 
+               <div >
+                    <div className={styles.homeSideOptions}>
+                        <Link to="/videogame"><button className={styles.homeOptionBtn}>Create VideoGame</button></Link>
+                        <button className={styles.homeOptionBtn} onClick={(e)=>handleClick(e)}>Reload VideoGame</button>
                     
-                }
-
-       
+                        <select className={styles.homeSelectBtn} onChange={e => handleSort(e)}>
+                            <option value="alpha">Alphabetically Sort</option>
+                            <option value="asc">Sort:  A - Z</option>
+                            <option value="des">Sort:  Z - A</option>
+                        </select>
+                        <select className={styles.homeSelectBtn} onChange={e => handleFilterCreated(e)}>
+                            <option value="Games">All Games</option>
+                            <option value="api">Games Api</option>
+                            <option value="Created">Created</option>
+                        </select>
+                        <select className={styles.homeSelectBtn} onChange={ e => handleSortByRating(e)}>
+                            <option value="Rating">Rating</option>
+                            <option value="Hight">Hight Rating</option>
+                            <option value="Low">Low Rating</option>
+                        </select>
+                        <select className={styles.homeSelectBtn} onChange={e => handleFilterGenres(e)}>
+                            <option value="Genres">All Genres</option>
+                            <GenreSelectOption 
+                                allGenres={allGenres}  
+                            />
+                        </select>
+                    </div>
+                </div>
+            
+                
+                <div className={styles.homeCardContainer}>
+                    {
+                    currentVideoGames?.map( (e) => {
+                            return(
+                                <div className={styles.homeCard} key={e.id}>
+                                    <Link to={"/home/" + e.id}>
+                                        
+                                        <Card  
+                                            name={e.name} 
+                                            image={e.image} 
+                                            genres={e.genres}
+                                            rating={e.rating}
+                                        />
+                                    </Link>
+                                </div>
+                            )
+                        })
+                        
+                    }
+                </div>
 
             </div>
         </div>

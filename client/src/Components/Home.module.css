@@ -1,0 +1,89 @@
+.homeContainer{
+    padding: 0rem 7rem;
+    background-color: #151515;
+}
+.homeTitleAndSearch{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
+    justify-content: space-between;
+}
+.homeTitle{
+    display: flex;
+    height: 50px;
+    width: 300px;
+   color: aliceblue;
+    /* margin: 0rem 4rem; */
+}
+.homeTitle1{
+    height: 40px;
+    width: 200px;
+    color: aliceblue;
+    transition: all 2ms;
+}
+.homeTitle1:hover{
+    transform: scale(1.1);
+}
+.homeSearchBar{
+    
+    margin-top: 1.5rem;
+ 
+}
+.homeImg1{
+    height: 120px; 
+    width: 120px; 
+    margin-left: 2rem;
+    border-radius: 10px;
+}
+.homeImg2{
+    height: 120px; 
+    width: 120px; 
+    border-radius: 10px;
+    margin-right: 4rem;
+}
+
+.homeSideAndCards{
+    display: flex;
+    flex-direction: row;
+}
+.homeSideOptions{
+    display: flex;
+    flex-direction: column;
+}
+
+.homeOptionBtn{
+    background-color: rgb(59,59,59);
+    color: aliceblue;
+    height: 40px;
+    width: 160px;
+    font-size: 15px;
+    margin: 7px 0px;
+    cursor: pointer;
+}
+.homeOptionBtn:hover{
+    background-color:aliceblue;
+    color: rgb(0, 0, 0);
+}
+.homeSelectBtn{
+    background-color: rgb(59,59,59);
+    color: aliceblue;
+    height: 40px;
+    width: 160px;
+    font-size: 15px;
+    margin: 7px 0px;
+    cursor: pointer;
+}
+.homeSelectBtn:hover{
+    background-color:aliceblue;
+    color: rgb(0, 0, 0);
+}
+.homeCardContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+.homeCard{
+    background-color: #151515;
+}

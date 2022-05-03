@@ -123,12 +123,9 @@ export default function VideoGamesCreate() {
     }
 
     const setArr = [];
-    const setArr2 = [];
+   
      allGames.map(e => e.platforms?.map(e => setArr.push(e)))
     let newSet = [...new Set(setArr)]
-    if(newSet !== []){
-        setArr2.push(newSet)
-    }
     
     
 
@@ -235,7 +232,7 @@ export default function VideoGamesCreate() {
                     {/* --------------------------------------- */}
                     
                     <Link to="/home"><button>Back</button></Link>
-                    <button type="submit" disabled={errorButton}>Create VideoGame</button>
+                    <button type="submit" disabled={false}>Create VideoGame</button>
                     
                 </div>
             </form>
