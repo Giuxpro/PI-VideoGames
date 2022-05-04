@@ -111,12 +111,33 @@ router.get("/videogames", async (req, res) => {
 
 router.get("/videogame/:id", async (req,res) =>{
     const {id} = req.params;
-    const videoGameInfoId = await allGamesInfo();
+    const videoGameInfoId = await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`);
+    console.log(videoGameInfoId)
+    
+    
+    if(id.length > 7){
+      Videogame.findAll({
+        where: {id : id},
+        attributes:["genres"],
+        
+      })
+    }
 
-    if(id){
-    let videoGameId = await videoGameInfoId.filter( e => e.id == id);
-    videoGameId.length > 0?
-    res.status(200).json(videoGameId):
+    else{
+      let gameDetail ={
+        image: videoGameInfoId.background_image,
+        name: videoGameInfoId.name,
+        released: videoGameInfoId.released,
+        rating: videoGameInfoId.rating,
+        platforms: videoGameInfoId.metacritic_platforms.map(e => e.platform.name),
+        genres: videoGameInfoId.genres.map(e => e.name),
+        description: videoGameInfoId.description,
+        website: videoGameInfoId.website,
+      }
+    //if(id){
+    // let videoGameId = await videoGameInfoId.filter( e => e.id == id);
+    //gameDetail.length > 0?
+    res.status(200).json(gameDetail)
     res.status(404).send("VideoGame By Id Not Found")
     }
 })
