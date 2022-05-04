@@ -2,8 +2,10 @@
     display: flex;
     align-items: center;
     justify-content: right;
-    height: 800px;
+    height: 900px;
     background-image: url("../Image/VGfondo.jpg");
+    background-position: center center;
+    background-attachment: fixed;
     background-size: cover;
 }
 

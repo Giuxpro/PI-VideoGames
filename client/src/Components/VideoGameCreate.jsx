@@ -94,7 +94,7 @@ export default function VideoGamesCreate() {
     function handleSelectForPlatform(e){
         setInput({
             ...input,
-            platforms: [input.platforms, e.target.value]
+            platforms: [...input.platforms, e.target.value]
         })
     }
 
@@ -126,7 +126,8 @@ export default function VideoGamesCreate() {
    
      allGames.map(e => e.platforms?.map(e => setArr.push(e)))
     let newSet = [...new Set(setArr)]
-    
+    console.log(newSet)
+    console.log(allGenres)
     
 
     return(
@@ -218,6 +219,7 @@ export default function VideoGamesCreate() {
                              ))
                                 
                             }
+                            
                             
                
                         </select> 

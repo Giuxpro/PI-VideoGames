@@ -129,9 +129,10 @@ export default function Home(){
                     currentVideoGames?.map( (e) => {
                             return(
                                 <div className={styles.homeCard} key={e.id}>
-                                    <Link to={"/home/" + e.id}>
+                                    <Link to={"/home/" + e.id} className={styles.homeCardLink}>
                                         
                                         <Card  
+                                            className={styles.mainCard}
                                             name={e.name} 
                                             image={e.image} 
                                             genres={e.genres}
