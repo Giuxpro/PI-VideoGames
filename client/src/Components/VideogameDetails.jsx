@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDetail } from "../actions";
 import { useEffect } from "react";
+import styles from "./VideogameDetails.module.css"
 
 
 export default function VideoGameDetail(){
@@ -10,35 +11,40 @@ export default function VideoGameDetail(){
 
     const dispatch = useDispatch();
     let {id}= useParams()
-
+  
     useEffect(()=>{
         dispatch(getDetail(id));
     },[dispatch,id])
 
     const videoGameDetail = useSelector((state)=> state.detail)
-
+    console.log(videoGameDetail)
 
     return(
 
         <div>
-            {
-                videoGameDetail.length > 0 ?
-                <div key={videoGameDetail[0].id}>
-                    <img src={videoGameDetail[0].image} alt="File Not Found" />
-                    <h1>{videoGameDetail[0].name}</h1>
-                    <h3>{videoGameDetail[0].released}</h3>
-                    <h3>{videoGameDetail[0].rating}</h3>
-                    <h3>{videoGameDetail[0].platforms.map(e => <div>{e + " "}</div>)}</h3>
-                    <h3>{videoGameDetail[0].genres.map(e => <div>{e + " "}</div>)}</h3>
-                    <h3>{videoGameDetail[0].description}</h3>
+            {   
+                
+                videoGameDetail.name?
+                
+                <div className={styles.detailContainer} key={videoGameDetail.id}>
+                    <img className={styles.gameImg}src={videoGameDetail.image} alt="File Not Found" width="300px" hight="300px"/>
+                    <div className={styles.gameDetail}>
+                        <h1>{videoGameDetail.name}</h1>
+                        <p><strong>Released: </strong>{videoGameDetail.released}</p>
+                        <p className={styles.pRatingDetail}><strong>Rating: </strong><p className={styles.ratingDetails}>{videoGameDetail.rating}</p></p>
+                        <p><strong>Platfom: </strong>{videoGameDetail.platforms?.map(e => <div>{e + " "}</div>)}</p>
+                        <p><strong>Genre: </strong>{videoGameDetail.genres?.map(e => e ).join(", ")}</p>
+                        <p><strong>Sinopsis: </strong>{<p dangerouslySetInnerHTML={{__html: videoGameDetail.description}}></p>}</p>
+                    </div>
+             
                 </div>
-                : <p>Loading...</p>
+                  : <p className={styles.loadingDetail}>Loading...</p>
             }   
 
             <Link to="/home">
-                <button>Back</button>
+                <button className={styles.backBtnDetail}>Back</button>
             </Link>
 
-        </div>
+            </div>
     )
 }
