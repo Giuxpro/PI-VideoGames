@@ -1,0 +1,142 @@
+.mainContainer{
+    display: flex;
+    flex-direction: row;
+}
+/* #########################  Cards and containers ##################### */
+.formContainer1 {
+    color: antiquewhite;
+    margin: 10rem auto;
+    
+    width: 400px;
+    height: 620px;
+    background-image: linear-gradient(163deg, #00ff75 0%, #3700ff 100%);
+    border-radius: 20px;
+    transition: all .3s;
+   }
+   
+.formContainer2 {
+    margin: 0 auto;
+    padding-top: 1rem;
+    width: 400px;
+    height: 604px;
+    background-color: #1a1a1a;
+    border-radius:15px;
+    transition: all .2s;
+   }
+   
+.formContainer2:hover {
+    transform: scale(0.98);
+    border-radius: 20px;
+   }
+   
+.formContainer1:hover {
+    box-shadow: 0px 0px 30px 1px rgba(0, 255, 117, 0.30);
+   }
+
+ /* #########################  Title ##################### */
+.formTitle{
+    margin-top: 2rem;
+}
+
+   /* #########################  INPUTS and LABELS ##################### */
+
+.divContainer{
+    display: block;
+    
+   
+}
+.labelContainer1{
+    display: block;
+    margin-right: 17rem;
+    font-size: 1rem;
+}
+.labelContainer2{
+    display: block;
+    margin-right: 15rem;
+    font-size: 1rem;
+}
+.labelContainer3{
+    display: block;
+    margin-right: 16rem;
+    font-size: 1rem;
+}
+.labelContainer4{
+    display: block;
+    margin-right: 17rem;
+    font-size: 1rem;
+}
+.labelContainer5{
+    display: block;
+    margin-right: 17rem;
+    font-size: 1rem;
+}
+.inputDescriContainer{
+    margin-bottom: 10px;
+    height: 4.5rem;
+    width: 20rem;
+    font-size: 1rem;
+    padding: 3px;
+    padding-left: 7px;
+    border-radius: 7px;
+}
+.inputContainer{
+    margin-bottom: 10px;
+    height: 1.5rem;
+    width: 20rem;
+    font-size: 1rem;
+    padding: 3px;
+    padding-left: 7px;
+    border-radius: 7px;
+}
+ /* #########################  SELECT and DELETE VALUE (Genres & Platform) ##################### */
+.selectContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.inputGenres{
+    height: 1.6rem;
+    border-radius: 5px;
+    width: 6rem;
+    margin: 0.5rem;
+    font-size: 1rem;
+}
+
+.inputPlatform{
+    height: 1.6rem;
+    border-radius: 5px;
+    width: 6rem;
+    margin: 0.5rem;
+    font-size: 1rem;
+}
+/* ######################### MSJ ERROR  ##################### */
+.msjInputError{
+    margin: 0px;
+    color: rgb(231, 63, 63);
+
+}
+/* #########################  BACK--CREATE -> button  ##################### */
+.formBackBtn{
+    height: 1.6rem;
+    width: 4rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin: 1rem;
+   
+}
+.formCreateBtn{
+    height: 1.6rem;
+    width: 4rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin: 1rem;
+}
+
+/* #########################  DELETE VALUE (Genres & Platform) ##################### */
+
+.deleteGenresContainer{
+    color: antiquewhite;
+    border: solid orange;
+}
+
+/* falta compretar el formulario en la parte generos y platfomrs */

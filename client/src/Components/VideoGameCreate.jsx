@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import {Link, useHistory} from "react-router-dom";
 import {postVideoGame, getGenres, getVideoGame} from "../actions/index";
 import {useDispatch, useSelector} from "react-redux";
+import styles from "./VideoGameCreate.module.css"
 
 
 
@@ -18,14 +19,14 @@ function Validate(input){
     if(!regexName.test(input.name)){
         errors.name = "Name required";
     }
-    else if(!regexDescription.test(input.description)){
-        errors.description = "Descripcion required"
-    }
     else if(!regexReleased.test(input.released)){
         errors.released = "Released date required"
     }
     else if(!regexRating.test(input.rating)){
     errors.rating = "Rating required (1-5)"
+    }
+    else if(!regexDescription.test(input.description)){
+        errors.description = "Descripcion required"
     }
     
 
@@ -131,114 +132,144 @@ export default function VideoGamesCreate() {
     
 
     return(
-        <div>
+    <div className={styles.mainContainer}>
+        <div  className={styles.formContainer1}>
             
-            <h1>Create VideoGame</h1>
+            <div className={styles.formContainer2}>
 
-            <form onSubmit={e => handleSubmit(e)}>
-                <div>
+                <h1 className={styles.formTitle}>Create your own Game!</h1>
+
+                <form onSubmit={e => handleSubmit(e)}>
                     <div>
-                        <label htmlFor="name">Nombre: </label>
-                        <input 
-                            type="text" 
-                            value={input.name}
-                            name="name"
-                            onChange={e =>handleChange(e)}
-                        />
-                        {errorValidated.name? <h4>{errorValidated.name}</h4>: false}
-                    </div>
-                    {/* --------------------------------------- */}
-                    <div>
-                        <label htmlFor="description">Description: </label>
-                        <textarea 
-                            type="text" 
-                            value={input.description}
-                            name="description"
-                            onChange={e =>handleChange(e)}
-                        />
-                        {errorValidated.description? <h4>{errorValidated.description}</h4>: false} 
-                    </div>
-                    {/* --------------------------------------- */}
-                    <div>
-                        <label htmlFor="released">Released: </label>
-                        <input 
-                            type="date" 
-                            value={input.released}
-                            name="released"
-                            onChange={e =>handleChange(e)}
-                        />
-                        {errorValidated.released? <h4>{errorValidated.released}</h4>: false}
-                    </div>
-                    {/* ---------------------------------------- */}
-                    <div>
-                        <label htmlFor="rating">Rating: </label>
+                        <div className={styles.divContainer}>
+                            <label htmlFor="name" className={styles.labelContainer1}>Name </label>
                             <input 
+                                className={styles.inputContainer}
                                 type="text" 
-                                value={input.rating}
-                                name="rating"
+                                value={input.name}
+                                name="name"
+                                required=""
+                                autoComplete="off"
+                                placeholder="Name"
                                 onChange={e =>handleChange(e)}
                             />
-                            {errorValidated.rating? <h4>{errorValidated.rating}</h4>: false}
+                           
+                            {errorValidated.name? <h4 className={styles.msjInputError}>{errorValidated.name}</h4>: false}
                         </div>
-                    {/* --------------------------------------- */}
-                    <div>
-                        <label htmlFor="image">Image: </label>
-                        <input 
-                            type="text" 
-                            value={input.image}
-                            name="image"
-                            onChange={e =>handleChange(e)}
-                        />
-                    </div>
-                    {/* --------------------------------------- */}
-                    <div>
-                        <select onChange={e =>handleSelectForGenres(e)}>
-                            <option value="gen">Genres</option>
-                            {   allGenres.map( e =>(
-                                     <option key={e.id} value={e.name}>{e.name}</option>
-                                ))  
-                            } 
-                        </select> 
+                        {/* --------------------------------------- */}
                         
-                        {/* <ul><li>{input.genres.map(e => e  + " | ")}</li></ul> */}
-                        {input.genres.map(e =>
-                            <div key={e}>
-                                <p>{e}</p>
-                                <button onClick={()=> handleGenresDelete(e)}>X</button>
+                        <div className={styles.divContainer}>
+                            <label htmlFor="released" className={styles.labelContainer3}>Released: </label>
+                            <input 
+                                className={styles.inputContainer}
+                                type="date" 
+                                value={input.released}
+                                name="released"
+                                required=""
+                                autoComplete="off"
+                                onChange={e =>handleChange(e)}
+                            />
+                            {errorValidated.released? <h4 className={styles.msjInputError}>{errorValidated.released}</h4>: false}
+                        </div>
+                        {/* ---------------------------------------- */}
+                        <div className={styles.divContainer}>
+                            <label htmlFor="rating" className={styles.labelContainer4}>Rating: </label>
+                                <input
+                                    className={styles.inputContainer} 
+                                    type="text" 
+                                    value={input.rating}
+                                    name="rating"
+                                    required=""
+                                    autoComplete="off"
+                                    placeholder="Rating"
+                                    onChange={e =>handleChange(e)}
+                                />
+                                {errorValidated.rating? <h4 className={styles.msjInputError}>{errorValidated.rating}</h4>: false}
                             </div>
-                        )}
-                    </div>
-                    {/* --------------------------------------- */}
-                    
-                    <div>
-                        <select onChange={e => handleSelectForPlatform(e)}>
-                            <option value="plat">Platforms</option>
-                            { newSet.map(e => (
+                        {/* --------------------------------------- */}
+                        <div className={styles.divContainer}>
+                            <label htmlFor="image" className={styles.labelContainer5}>Image: </label>
+                            <input
+                                className={styles.inputContainer} 
+                                type="text" 
+                                value={input.image}
+                                name="image"
+                                required=""
+                                autoComplete="off"
+                                placeholder="Image"
+                                onChange={e =>handleChange(e)}
+                            />
+                        </div>
+                        {/* --------------------------------------- */}
+                        <div className={styles.divContainer}>
+                            <label htmlFor="description" className={styles.labelContainer2}>Description </label>
+                            <textarea 
+                                className={styles.inputDescriContainer}
+                                type="text" 
+                                value={input.description}
+                                name="description"
+                                required=""
+                                autoComplete="off"
+                                placeholder="Description"
+                                onChange={e =>handleChange(e)}
+                            />
+                            {errorValidated.description? <h4 className={styles.msjInputError}>{errorValidated.description}</h4>: false} 
+                        </div>
+                        {/* --------------------------------------- */}
+                        <div className={styles.selectContainer}>
+                        <div>
+                            <select className={styles.inputGenres} onChange={e =>handleSelectForGenres(e)}>
+                                <option value="gen">Genres</option>
+                                {   allGenres.map( e =>(
+                                        <option key={e.id} value={e.name}>{e.name}</option>
+                                    ))  
+                                } 
+                            </select> 
+                            
+                        </div>
+                        {/* --------------------------------------- */}
+                        
+                        <div>
+                            <select className={styles.inputPlatform} onChange={e => handleSelectForPlatform(e)}>
+                                <option value="plat">Platforms</option>
+                                { newSet.map(e => (
 
-                                <option key={e} value={e}>{e}</option>
-                             ))
+                                    <option key={e} value={e}>{e}</option>
+                                ))
+                                    
+                                }
                                 
-                            }
+                                
+                
+                            </select> 
                             
-                            
-               
-                        </select> 
-                        {/* <ul><li>{input.platforms?.map(e => e  + " | ")}</li></ul> */}
-                        {input.platforms.map(e =>
-                            <div key={e}>
-                                <p>{e}</p>
-                                <button onClick={()=> handlePlatformDelete(e)}>X</button>
-                            </div>
-                        )}
+                        </div>
+                        </div>
+                        {/* --------------------------------------- */}
+                        
+                        <Link to="/home"><button className={styles.formBackBtn}>Back</button></Link>
+                        <button className={styles.formCreateBtn} type="submit" disabled={false}>Create</button>
+                        
                     </div>
-                    {/* --------------------------------------- */}
-                    
-                    <Link to="/home"><button>Back</button></Link>
-                    <button type="submit" disabled={false}>Create VideoGame</button>
-                    
-                </div>
-            </form>
+                </form>
+            </div>
 
         </div>
+            {/* <ul><li>{input.genres.map(e => e  + " | ")}</li></ul> */}
+            {input.genres.map(e =>
+                    <div className={styles.deleteGenresContainer} key={e}>
+                        <p>{e}</p>
+                        <button onClick={()=> handleGenresDelete(e)}>X</button>
+                    </div>
+            )}
+
+            {/* <ul><li>{input.platforms?.map(e => e  + " | ")}</li></ul> */}
+            {input.platforms.map(e =>
+                    <div className={styles.deletePlatformContainer} key={e}>
+                        <p>{e}</p>
+                        <button onClick={()=> handlePlatformDelete(e)}>X</button>
+                    </div>
+            )}
+    </div>
     )
 }
