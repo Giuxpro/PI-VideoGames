@@ -73,8 +73,9 @@ export default function Home(){
                     <img  className={styles.homeImg1} src={imgLogo1} alt="File Not Found" />
                 </div>
                 <div className={styles.homeTitle}>
-                    <h1 className={styles.homeTitle1}>Giux Games</h1>
-
+                    <Link className={styles.titleLink} to="/">
+                        <h1 className={styles.homeTitle1}>Giux Games</h1>
+                    </Link>
                 </div>
                 <div className={styles.homeSearchBar}>
                     <SearchBar/>  

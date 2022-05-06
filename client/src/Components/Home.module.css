@@ -14,8 +14,10 @@
     height: 50px;
     width: 300px;
     color: aliceblue;
-    margin-left: 1rem;
-    
+    margin-left: 1rem;  
+}
+.titleLink{
+    text-decoration: none;
 }
 .homeTitle1{
     height: 40px;

@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     justify-content: right;
-    height: 900px;
+    height: 100vh;
     background-image: url("../Image/VGfondo.jpg");
     background-position: center center;
     background-attachment: fixed;

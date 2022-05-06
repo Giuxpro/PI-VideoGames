@@ -3,9 +3,10 @@ import img from "../Image/port5.jpg"
 import styles from "../Components/Card.module.css"
 
 export default function Card({ name, image, genres, rating}){
+    var regexUrl = /[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/;
     return (
         <div className={styles.cardContainer}>
-             <img className={styles.cardImg} src={image ? image : img} alt="File Not Found" width="250px" height="150px" />
+             <img className={styles.cardImg} src={regexUrl.test(image) ? image : img} alt="File Not Found" width="250px" height="150px" />
           
             <div className={styles.textContainer}>
             
@@ -14,7 +15,7 @@ export default function Card({ name, image, genres, rating}){
                 </div>
 
                 <div className={styles.genreContainer}>
-                    <h5 className={styles.cardGenre}>{ genres + " "}</h5>
+                    <h5 className={styles.cardGenre}>{ genres.join(" | ")}</h5>
                 </div>
 
                 <div className={styles.raitingContainer}>

@@ -1,6 +1,16 @@
+.container{
+    display: flex;
+    flex-direction: row;
+  justify-content:  center;
+   
+    
+}
 .mainContainer{
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly;
+    max-width:80%;
+    
 }
 /* #########################  Cards and containers ##################### */
 .formContainer1 {
@@ -19,7 +29,7 @@
     padding-top: 1rem;
     width: 400px;
     height: 604px;
-    background-color: #1a1a1a;
+    background-color: #242429;
     border-radius:15px;
     transition: all .2s;
    }
@@ -97,17 +107,19 @@
 .inputGenres{
     height: 1.6rem;
     border-radius: 5px;
-    width: 6rem;
+    width: 8rem;
     margin: 0.5rem;
-    font-size: 1rem;
+    font-size: 0.8rem;
+    cursor: pointer;
 }
 
 .inputPlatform{
     height: 1.6rem;
     border-radius: 5px;
-    width: 6rem;
+    width: 8rem;
     margin: 0.5rem;
-    font-size: 1rem;
+    font-size: 0.8rem;
+    cursor: pointer;
 }
 /* ######################### MSJ ERROR  ##################### */
 .msjInputError{
@@ -122,7 +134,11 @@
     border-radius: 5px;
     font-size: 1rem;
     margin: 1rem;
-   
+    cursor: pointer;
+    transition: all 300ms;
+}
+.formBackBtn:hover{
+    transform: scale(1.1);
 }
 .formCreateBtn{
     height: 1.6rem;
@@ -130,13 +146,77 @@
     border-radius: 5px;
     font-size: 1rem;
     margin: 1rem;
+    cursor: pointer;
+    transition: all 300ms;
+}
+.formCreateBtn:hover{
+    transform: scale(1.1);
 }
 
 /* #########################  DELETE VALUE (Genres & Platform) ##################### */
-
+.GenContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 2rem;
+    margin-left: 13rem;
+    align-items: center;
+    width: 20rem;
+    order: -1;
+}
+.pGenres{
+    margin-top: 10px;
+}
 .deleteGenresContainer{
+    cursor: pointer;
     color: antiquewhite;
-    border: solid orange;
+    width: 11rem;
+    height: 1.5rem;
+    background-color: #393939;
+    border-radius: 10px;
+    margin: 5px;
+    padding-bottom: 15px;
+    transition: all 300ms;
+    font-weight: 50px;
+    border-bottom: #00ff75 solid 6px;
+
+}
+.deleteGenresContainer:hover{
+    background-color: aliceblue;
+    color: #1f1f1f;
+    transform: scale(1.1);
+    font-weight: 200px;
+}
+.PlatContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 2rem;
+    margin-right: 13rem;
+    align-items: center;
+    width: 20rem;
+}
+.pPlatform{
+    margin-top: 10px;
+}
+.deletePlatformContainer{
+    order:1;
+    cursor: pointer;
+    color: antiquewhite;
+    width: 11rem;
+    height: 1.5rem;
+    background-color: #393939;
+    border-radius: 10px;
+    margin: 5px;
+    padding-bottom: 15px;
+    transition: all 300ms;
+    font-weight: 50px;
+    border-bottom: #00ff75 solid 6px;
+}
+.deletePlatformContainer:hover{
+    background-color: aliceblue;
+    color: #1f1f1f;
+    transform: scale(1.1);
+    font-weight: 200px;
 }
 
-/* falta compretar el formulario en la parte generos y platfomrs */

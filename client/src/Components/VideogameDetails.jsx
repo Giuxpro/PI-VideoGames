@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDetail } from "../actions";
 import { useEffect } from "react";
 import styles from "./VideogameDetails.module.css"
+import img from "../Image/port5.jpg"
 
 
 export default function VideoGameDetail(){
@@ -17,24 +18,24 @@ export default function VideoGameDetail(){
     },[dispatch,id])
 
     const videoGameDetail = useSelector((state)=> state.detail)
-    console.log(videoGameDetail)
+    
 
     return(
 
-        <div>
+        <div className={styles.firstContainer} key={videoGameDetail.id}>
             {   
                 
                 videoGameDetail.name?
                 
                 <div className={styles.detailContainer} key={videoGameDetail.id}>
-                    <img className={styles.gameImg}src={videoGameDetail.image} alt="File Not Found" width="300px" hight="300px"/>
-                    <div className={styles.gameDetail}>
+                    <img className={styles.gameImg}src={videoGameDetail.image? videoGameDetail.image : img} alt="File Not Found" width="300px" hight="300px"/>
+                    <div className={styles.gameDetail} key={videoGameDetail.id}>
                         <h1>{videoGameDetail.name}</h1>
                         <p><strong>Released: </strong>{videoGameDetail.released}</p>
-                        <p className={styles.pRatingDetail}><strong>Rating: </strong><p className={styles.ratingDetails}>{videoGameDetail.rating}</p></p>
-                        <p><strong>Platfom: </strong>{videoGameDetail.platforms?.map(e => <div>{e + " "}</div>)}</p>
+                        <div className={styles.ratingDetail}><strong>Rating: </strong><p className={styles.ratingDetails}>{videoGameDetail.rating}</p></div>
+                        <div className={styles.detailPlatform}><strong>Platfom: </strong>{videoGameDetail.platforms?.map(e => <div key={e}>{e + " "}</div>)}</div>
                         <p><strong>Genre: </strong>{videoGameDetail.genres?.map(e => e ).join(", ")}</p>
-                        <p><strong>Sinopsis: </strong>{<p dangerouslySetInnerHTML={{__html: videoGameDetail.description}}></p>}</p>
+                        <div><strong>Sinopsis: </strong>{<p dangerouslySetInnerHTML={{__html: videoGameDetail.description}}></p>}</div>
                     </div>
              
                 </div>

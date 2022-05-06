@@ -5,34 +5,31 @@ import {useDispatch, useSelector} from "react-redux";
 import styles from "./VideoGameCreate.module.css"
 
 
-
-
-function Validate(input){
-    let errors = {};
-    
-    let regexName = /^\b[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;   
-    let regexDescription = /^\b[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;// regex initial Space: null, Mayus, min, space betw: true
-    let regexReleased = /[012345]{1,8}/;
-    let regexRating =/[+-]?([0-9]*[.])?\b[0-5]{1,1}\b/; //regex 1-5 decimal inclusive
+// function Validate(input){
+//     let errors = {};
+//     var regexUrl = /[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/;
+//     let regexName = /^\b[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;   
+//     let regexDescription = /^\b[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;// regex initial Space: null, Mayus, min, space betw: true
+//     let regexReleased = /[012345]{1,8}/;
+//     let regexRating =/[+-]?([0-9]*[.])?\b[0-5]{1,1}\b/; //regex 1-5 decimal inclusive
     
 
-    if(!regexName.test(input.name)){
-        errors.name = "Name required";
-    }
-    else if(!regexReleased.test(input.released)){
-        errors.released = "Released date required"
-    }
-    else if(!regexRating.test(input.rating)){
-    errors.rating = "Rating required (1-5)"
-    }
-    else if(!regexDescription.test(input.description)){
-        errors.description = "Descripcion required"
-    }
-    
-
-
-    return errors;
-}
+//     if(!regexName.test(input.name)){
+//         errors.name = "Name required";
+//     }
+//     else if(!regexReleased.test(input.released)){
+//         errors.released = "Released date required"
+//     }
+//     else if(!regexRating.test(input.rating)){
+//     errors.rating = "Rating required (1-5)"
+//     }
+//     else if(!regexDescription.test(input.description)){
+//         errors.description = "Descripcion required"
+//     }
+//      let expReg = /^[a-zA-Z0-9\:\-\s]{1,32}$/;
+ 
+//     return errors;
+// }
 
 
 
@@ -72,8 +69,7 @@ export default function VideoGamesCreate() {
                 [e.target.name]: e.target.value
             
         })
-       setErrorValidated(Validate(input))
-       console.log(input)
+       
     }
 
     function handleSelectForGenres(e){
@@ -108,7 +104,24 @@ export default function VideoGamesCreate() {
 
     function handleSubmit(e){
         e.preventDefault()
-        setErrorValidated(Validate(input))
+        
+        let expReg = /^\b[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s0-9]+$/;
+        if(!input.name){
+            return alert('Enter game name');
+        }else if(!expReg.test(input.name)){
+            return alert('The name must only have letters or numbers')
+        }else if(!input.released){
+            return alert('Enter a released date');
+        }else if(!input.rating ||(input.rating < 0 || input.rating > 5)){
+            return alert('Enter a rating from 0 to 5');
+        }else if(!input.genres.length){
+            return alert('Select at least 1 genres');
+        }else if(!input.platforms.length){
+            return alert('Select at least 1 platform');
+        }else if(!input.description){
+            return alert('Enter description game');
+        }
+
         dispatch(postVideoGame(input))
         alert("VideoGame Created Successfully")
         setInput({
@@ -127,12 +140,13 @@ export default function VideoGamesCreate() {
    
      allGames.map(e => e.platforms?.map(e => setArr.push(e)))
     let newSet = [...new Set(setArr)]
-    console.log(newSet)
-    console.log(allGenres)
+    
     
 
     return(
+    <div className={styles.container}>
     <div className={styles.mainContainer}>
+    
         <div  className={styles.formContainer1}>
             
             <div className={styles.formContainer2}>
@@ -255,21 +269,29 @@ export default function VideoGamesCreate() {
             </div>
 
         </div>
+            <div className={styles.GenContainer}>
             {/* <ul><li>{input.genres.map(e => e  + " | ")}</li></ul> */}
             {input.genres.map(e =>
                     <div className={styles.deleteGenresContainer} key={e}>
-                        <p>{e}</p>
-                        <button onClick={()=> handleGenresDelete(e)}>X</button>
+                        
+                        <p onClick={()=> handleGenresDelete(e)} className={styles.pGenres}>{e}</p>
+                        {/* <button onClick={()=> handleGenresDelete(e)}>X</button> */}
                     </div>
             )}
+            </div>
 
+            <div className={styles.PlatContainer}>
+        
             {/* <ul><li>{input.platforms?.map(e => e  + " | ")}</li></ul> */}
             {input.platforms.map(e =>
                     <div className={styles.deletePlatformContainer} key={e}>
-                        <p>{e}</p>
-                        <button onClick={()=> handlePlatformDelete(e)}>X</button>
+                        <p onClick={()=> handlePlatformDelete(e)} className={styles.pPlatform}>{e}</p>
+                        {/* <button onClick={()=> handlePlatformDelete(e)}>X</button> */}
                     </div>
             )}
+            </div>
+            
+    </div>
     </div>
     )
 }
