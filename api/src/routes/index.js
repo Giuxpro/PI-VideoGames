@@ -71,6 +71,7 @@ const getDbInfo = async ()=> {
       platforms,
       image,
       genres: genres.map((e) => e.name),
+      
     }));
     return infoDb
 };
@@ -111,19 +112,31 @@ router.get("/videogames", async (req, res) => {
 
 router.get("/videogame/:id", async (req,res) =>{
     const {id} = req.params;
-    const videoGameInfoId = await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`);
-    
-    
-    
-    if(id.length > 7){
-      Videogame.findAll({
-        where: {id : id},
-        attributes:["genres"],
-        
+   
+    if(id.length > 9){
+      let dbGameInfo = await Videogame.findOne({
+        where:{ id: id},
+        include: Genre
       })
+    
+      let gameDb ={
+        image: dbGameInfo.image,
+        name: dbGameInfo.name,
+        released: dbGameInfo.released,
+        rating: dbGameInfo.rating,
+        platforms: dbGameInfo.platforms,
+        genres: dbGameInfo.genres?.map(e => e.name),
+        description: dbGameInfo.description
+
+      }
+
+      //  console.log(dbGame)
+      res.send(gameDb)
+      
     }
 
     else{
+      const videoGameInfoId = await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`);
       let gameDetail ={
         image: videoGameInfoId.data.background_image,
         name: videoGameInfoId.data.name,
@@ -134,9 +147,7 @@ router.get("/videogame/:id", async (req,res) =>{
         description: videoGameInfoId.data.description,
         website: videoGameInfoId.data.website,
       }
-    //if(id){
-    //let videoGameId = await videoGameInfoId.filter( e => e.id == id);
-    //gameDetail.length > 0?
+  
     res.status(200).json(gameDetail)
     //res.status(404).send("VideoGame By Id Not Found")
     }
@@ -157,7 +168,7 @@ router.get("/genres", async (req,res) =>{
         });
       }
       let allGenres = await Genre.findAll();
-      console.log(allGenres)
+      
       res.status(200).json(allGenres);
 
 })
