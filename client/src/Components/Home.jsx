@@ -9,7 +9,8 @@ import GenreSelectOption from "./Genres"
 import SearchBar from "./SearchBar";
 import styles from "./Home.module.css"
 import imgLogo1 from "../Image/logo1.jpg"
-import imgLogo3 from "../Image/logo3.jpg"
+// import wallPaper from "../Image/WallpaperDog-17102007.jpg"
+// import wallPaper from "../Image/fondb4.jpg"
 
 
 export default function Home(){
@@ -68,31 +69,39 @@ export default function Home(){
 
     return(
         <div className={styles.homeContainer}>
+            <div className={styles.wallpaperContainer}>
+                <div className={styles.wallPaper}>
+                    {/* <img className={styles.wallPaper}src={wallPaper} alt="WallPaper" height="250px" width="100%"/> */}
+                </div>
+            </div>
+            
             <div className={styles.homeTitleAndSearch}>
                 <div className={styles.homeImg1}>
-                    <img  className={styles.homeImg1} src={imgLogo1} alt="File Not Found" />
+                    <Link className={styles.titleLink} to="/">
+                        <img  className={styles.homeImg1} src={imgLogo1} alt="File Not Found" />
+                    </Link>
                 </div>
                 <div className={styles.homeTitle}>
                     <Link className={styles.titleLink} to="/">
                         <h1 className={styles.homeTitle1}>Giux Games</h1>
                     </Link>
                 </div>
-                <div className={styles.homeSearchBar}>
-                    <SearchBar/>  
+                <div className={styles.searchAndPaginado}>
+                    <div className={styles.homeSearchBar}>
+                        <SearchBar/>  
+                    </div>
+                    <div>
+                        <Paginado
+                            videoGamesPage={videoGamesPage}
+                            allVideoGames={allVideoGames.length}
+                            paginado={paginado}
+                        />
+                    </div>
                 </div>
-                <div className={styles.homeImg2}>
-                    <img className={styles.homeImg2} src={imgLogo3} alt="File Not Found" />
-                </div>
-
-
+               
+                
             </div>
-            <div>
-                <Paginado
-                    videoGamesPage={videoGamesPage}
-                    allVideoGames={allVideoGames.length}
-                    paginado={paginado}
-                />
-            </div>
+           
            
            <div className={styles.homeSideAndCards}> 
                <div >

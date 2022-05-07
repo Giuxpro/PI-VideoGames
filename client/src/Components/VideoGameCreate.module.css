@@ -1,9 +1,14 @@
 .container{
     display: flex;
     flex-direction: row;
-  justify-content:  center;
-   
-    
+    justify-content:  center;
+    background-image: url("../Image/port3.jpg");
+}
+.blurCont{
+    display: flex;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.83);
+    width: 85%;
 }
 .mainContainer{
     display: flex;
@@ -25,7 +30,7 @@
    }
    
 .formContainer2 {
-    margin: 0 auto;
+   
     padding-top: 1rem;
     width: 400px;
     height: 604px;
@@ -159,7 +164,7 @@
     flex-direction: column;
     justify-content: center;
     margin-bottom: 2rem;
-    margin-left: 13rem;
+    margin-left: 12rem;
     align-items: center;
     width: 20rem;
     order: -1;
@@ -174,7 +179,7 @@
     height: 1.5rem;
     background-color: #393939;
     border-radius: 10px;
-    margin: 5px;
+    margin: 7px;
     padding-bottom: 15px;
     transition: all 300ms;
     font-weight: 50px;
@@ -192,7 +197,7 @@
     flex-direction: column;
     justify-content: center;
     margin-bottom: 2rem;
-    margin-right: 13rem;
+    margin-right: 12rem;
     align-items: center;
     width: 20rem;
 }
@@ -205,9 +210,9 @@
     color: antiquewhite;
     width: 11rem;
     height: 1.5rem;
+    margin: 7px;
     background-color: #393939;
     border-radius: 10px;
-    margin: 5px;
     padding-bottom: 15px;
     transition: all 300ms;
     font-weight: 50px;

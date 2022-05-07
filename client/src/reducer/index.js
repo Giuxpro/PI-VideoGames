@@ -70,7 +70,7 @@ function rootReducer (state= initialState, action){
         
         case "ORDER_BY_RATING":
             
-            let sortByRating = action.payload === "Low"
+            let sortByRating = action.payload === "Hight"
             ? state.videogames.sort((a,b)=>{
                 
                 if(a.rating > b.rating){

@@ -7,7 +7,7 @@ import styles from "./VideoGameCreate.module.css"
 
 // function Validate(input){
 //     let errors = {};
-//     var regexUrl = /[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/;
+//     //var regexUrl = /[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/;
 //     let regexName = /^\b[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;   
 //     let regexDescription = /^\b[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;// regex initial Space: null, Mayus, min, space betw: true
 //     let regexReleased = /[012345]{1,8}/;
@@ -26,7 +26,7 @@ import styles from "./VideoGameCreate.module.css"
 //     else if(!regexDescription.test(input.description)){
 //         errors.description = "Descripcion required"
 //     }
-//      let expReg = /^[a-zA-Z0-9\:\-\s]{1,32}$/;
+//     let expReg = /^[a-zA-Z0-9\:\-\s]{1,32}$/;
  
 //     return errors;
 // }
@@ -104,7 +104,7 @@ export default function VideoGamesCreate() {
 
     function handleSubmit(e){
         e.preventDefault()
-        
+   
         let expReg = /^\b[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s0-9]+$/;
         if(!input.name){
             return alert('Enter game name');
@@ -113,7 +113,7 @@ export default function VideoGamesCreate() {
         }else if(!input.released){
             return alert('Enter a released date');
         }else if(!input.rating ||(input.rating < 0 || input.rating > 5)){
-            return alert('Enter a rating from 0 to 5');
+            return alert('Enter a rating from 0 to 5 (Integer or Float)');
         }else if(!input.genres.length){
             return alert('Select at least 1 genres');
         }else if(!input.platforms.length){
@@ -121,6 +121,7 @@ export default function VideoGamesCreate() {
         }else if(!input.description){
             return alert('Enter description game');
         }
+        
 
         dispatch(postVideoGame(input))
         alert("VideoGame Created Successfully")
@@ -144,7 +145,9 @@ export default function VideoGamesCreate() {
     
 
     return(
+    
     <div className={styles.container}>
+    <div className={styles.blurCont}>
     <div className={styles.mainContainer}>
     
         <div  className={styles.formContainer1}>
@@ -291,6 +294,7 @@ export default function VideoGamesCreate() {
             )}
             </div>
             
+    </div>
     </div>
     </div>
     )
