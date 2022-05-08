@@ -3,7 +3,8 @@ const initialState = {
     videogames:[],
     backUpGames:[],
     genres:[],
-    detail:[]
+    detail:[],
+    error:[]
 
 }
 
@@ -98,11 +99,14 @@ function rootReducer (state= initialState, action){
             }
         
         case "GET_VIDEOGAME_BY_NAME":
-            return{
+          
+            return {
                 ...state,
-                videogames: action.payload
+                videogames: action.payload,
+                error: action.payload
             }
-        
+          
+         
         case "POST_VIDEOGAME":
             return{
                 ...state
@@ -112,6 +116,11 @@ function rootReducer (state= initialState, action){
             return{
                 ...state,
                 detail: action.payload
+            }
+        case "RESET_DETAIL":
+            return{
+                ...state,
+                detail:[]
             }
 
         default:

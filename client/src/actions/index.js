@@ -58,7 +58,7 @@ export function getNameVideoGame(payload){
             var json = await axios.get(`http://localhost:3001/videogames?name=${payload}`)
             return dispatch({
                 type: "GET_VIDEOGAME_BY_NAME",
-                payload: json.data
+                payload: json.data,
             })
         } catch(error){
             console.log(error)
@@ -84,5 +84,11 @@ export function getDetail(id){
         }catch(error){
             console.log(error)
         }
+    }
+}
+
+export function clearDatail(){
+    return{
+        type:"RESET_DETAIL"
     }
 }

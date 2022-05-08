@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getDetail } from "../actions";
+import { getDetail, clearDatail } from "../actions";
 import { useEffect } from "react";
 import styles from "./VideogameDetails.module.css"
 import img from "../Image/port5.jpg"
@@ -12,9 +12,11 @@ export default function VideoGameDetail(){
 
     const dispatch = useDispatch();
     let {id}= useParams()
-  
+    
+
     useEffect(()=>{
         dispatch(getDetail(id));
+        dispatch(clearDatail())
     },[dispatch,id])
 
     const videoGameDetail = useSelector((state)=> state.detail)

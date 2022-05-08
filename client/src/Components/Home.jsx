@@ -17,8 +17,9 @@ export default function Home(){
     const dispatch = useDispatch()
     const allVideoGames = useSelector(state => state.videogames);
     const allGenres = useSelector(state => state.genres);
+    const error = useSelector(state => state.error)
     const [orden, setOrden]= useState("")
-
+    
     //Seteo el paginado aqui y luego aplico la logica en el componente Paginado
     const [currentPage, setCurrentPage] = useState(1);
     const [videoGamesPage, setVideoGamesPage] = useState(15);
@@ -133,7 +134,9 @@ export default function Home(){
                     </div>
                 </div>
             
-                
+            {
+                allVideoGames.length > 0?
+              
                 <div className={styles.homeCardContainer}>
                     {
                     currentVideoGames?.map( (e) => {
@@ -155,7 +158,12 @@ export default function Home(){
                         
                     }
                 </div>
-
+                :
+                  <div>
+                    <h2>Not Found</h2>
+                  </div>
+              
+            }
             </div>
         </div>
     )
