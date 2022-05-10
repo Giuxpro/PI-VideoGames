@@ -5,6 +5,9 @@ require('dotenv').config();
 const axios = require("axios");
 const { Videogame, Genre } = require("../db")
 const {API_KEY} = process.env;
+const {
+  Op
+} = require("sequelize")
 
 const router = Router();
 
@@ -60,7 +63,7 @@ const getDbInfo = async ()=> {
             },
         },
     });
-    console.log(infoDb[0])
+    
    // retorno los datos necesarios para los juegos de la DB
     infoDb = infoDb.map(({ createInDb, id, name, released, rating, platforms, genres, image }) => ({ 
       createInDb,
@@ -86,29 +89,100 @@ const allGamesInfo = async () =>{
 }
 
 
-router.get("/videogames", async (req, res) => {
-    const {name} = req.query;
-    const videoGamesInfo = await allGamesInfo();
+// router.get("/videogames", async (req, res) => {
+//     const {name} = req.query;
+//     const videoGamesInfo = await allGamesInfo();
 
-    if(name){
-       let videoGameName = await videoGamesInfo.filter( e => e.name.toLowerCase().includes(name.toLowerCase()));
-       let gameArr=[];
-       let aux = 15;
-       for(let i = 0; i < aux; i++){
-           if(videoGameName[i]){
-            gameArr.push(videoGameName[i])
-           }
-       }
-       gameArr.length?
-       res.status(200).send(gameArr):
-       res.status(404).send("VideoGame By Name Not Found")
-    }
-    else{
+//     if(name){
+//        let videoGameName = await videoGamesInfo.filter( e => e.name.toLowerCase().includes(name.toLowerCase()));
+//        let gameArr=[];
+//        let aux = 15;
+//        for(let i = 0; i < aux; i++){
+//            if(videoGameName[i]){
+//             gameArr.push(videoGameName[i])
+//            }
+//        }
+//        gameArr.length?
+//        res.status(200).send(gameArr):
+//        res.status(404).send("Game Not Found")
+//     }
+//     else{
 
-        res.status(200).json(videoGamesInfo)
-    }
+//         res.status(200).json(videoGamesInfo)
+//     }
     
-})
+// })
+
+router.get("/videogames", async (req, res) => {
+
+
+  try {
+
+
+
+      const {
+          name
+      } = req.query;
+
+      let videogameAllName = await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`);
+
+      if (name) {
+
+          let videogameName = videogameAllName.data.results.filter(data => data.name.toLowerCase().includes(name.toLowerCase()))
+
+          videogameName = videogameName.slice(0, 15);
+
+          videogameName = videogameName.map(data => {
+              return {
+                  id: data.id,
+                  name: data.name,
+                  description: data.description,
+                  released: data.released,
+                  rating: data.rating,
+                  image: data.background_image,
+                  platforms: data.platforms?.map(data => data.platform.name),
+                  genres: data.genres?.map(data => data.name)
+              }
+          });
+
+          let videogameDb = await Videogame.findAll({ //se busca todas las coincidencias en la DB donde coincida su nombre con lo que me pasan por body
+              where: {
+                  name: {
+                      [Op.iLike]: "%" + name + "%"
+                  },
+              },
+              include: Genre
+          })
+
+          videogameDb = videogameDb.map(({ id, name, released, rating, platforms, genres, image}) => ({
+              id,
+              name,
+              released,
+              rating,
+              platforms,
+              genres: genres.map((genre) => genre.name),
+              image
+          }));
+
+          videogameName = videogameDb.concat(videogameName)
+
+          if (videogameName.length) {
+              res.status(200).send(videogameName)
+          } else {
+              res.status(404).send("No existe ese videojuego");
+          }
+      } else {
+
+          let allVideogames = await allGamesInfo();
+
+          res.status(200).send(allVideogames);
+      }
+
+  } catch (error) {
+      console.log(error)
+  }
+
+});
 
 router.get("/videogame/:id", async (req,res) =>{
     const {id} = req.params;
@@ -129,8 +203,6 @@ router.get("/videogame/:id", async (req,res) =>{
         description: dbGameInfo.description
 
       }
-
-      //  console.log(dbGame)
       res.send(gameDb)
       
     }
