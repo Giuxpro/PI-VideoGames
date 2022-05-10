@@ -27,7 +27,7 @@ export function filterVideoGameByGenres(payload){
     return{
         type:"FILTER_BY_GENRE",
         payload: payload,
-        //res:console.log(payload)
+        
     }
 }
 
@@ -59,9 +59,10 @@ export function getNameVideoGame(payload){
             return dispatch({
                 type: "GET_VIDEOGAME_BY_NAME",
                 payload: json.data,
+                
             })
         } catch(error){
-            console.log(error)
+            console.log("getNameVideoGame"+ error)
         }
     }
 }

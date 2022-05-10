@@ -99,11 +99,11 @@ function rootReducer (state= initialState, action){
             }
         
         case "GET_VIDEOGAME_BY_NAME":
-          
+                // const gameName = !action.payload || action.payload == []? action.payload : alert('Game Not Fount');
             return {
                 ...state,
-                videogames: action.payload,
-                error: action.payload
+                videogames:action.payload,
+                
             }
           
          

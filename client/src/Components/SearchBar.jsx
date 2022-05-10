@@ -15,7 +15,6 @@ export default function SearchBar(){
     function handleInputChange(e){
         e.preventDefault();
         setName(e.target.value)
-        console.log(e.target.value)
       
     }
 

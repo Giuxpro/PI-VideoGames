@@ -9,6 +9,8 @@ import GenreSelectOption from "./Genres"
 import SearchBar from "./SearchBar";
 import styles from "./Home.module.css"
 import imgLogo1 from "../Image/logo1.jpg"
+import Loading from "./Loading";
+import Empty from "./Empty";
 // import wallPaper from "../Image/WallpaperDog-17102007.jpg"
 // import wallPaper from "../Image/fondb4.jpg"
 
@@ -16,6 +18,7 @@ import imgLogo1 from "../Image/logo1.jpg"
 export default function Home(){
     const dispatch = useDispatch()
     const allVideoGames = useSelector(state => state.videogames);
+    console.log(allVideoGames)
     const allGenres = useSelector(state => state.genres);
     const error = useSelector(state => state.error)
     const [orden, setOrden]= useState("")
@@ -65,6 +68,7 @@ export default function Home(){
         setOrden(`Ordenado ${e.target.value}`)
         setCurrentPage(1)
     }
+    
     
 
 
@@ -135,12 +139,14 @@ export default function Home(){
                 </div>
             
             {
-                allVideoGames.length > 0?
+                allVideoGames.length> 0?
               
                 <div className={styles.homeCardContainer}>
                     {
+                    
                     currentVideoGames?.map( (e) => {
                             return(
+                               
                                 <div className={styles.homeCard} key={e.id}>
                                     <Link to={"/videogame/" + e.id} className={styles.homeCardLink}>
                                         
@@ -153,15 +159,17 @@ export default function Home(){
                                         />
                                     </Link>
                                 </div>
+                               
                             )
                         })
                         
                     }
                 </div>
-                :
-                  <div>
-                    <h2>Not Found</h2>
-                  </div>
+                :  
+                <div className={styles.loadingCard}>
+                    <Loading/>
+
+                </div>
               
             }
             </div>
