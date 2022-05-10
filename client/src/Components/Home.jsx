@@ -10,9 +10,7 @@ import SearchBar from "./SearchBar";
 import styles from "./Home.module.css"
 import imgLogo1 from "../Image/logo1.jpg"
 import Loading from "./Loading";
-import Empty from "./Empty";
-// import wallPaper from "../Image/WallpaperDog-17102007.jpg"
-// import wallPaper from "../Image/fondb4.jpg"
+
 
 
 export default function Home(){
@@ -20,7 +18,8 @@ export default function Home(){
     const allVideoGames = useSelector(state => state.videogames);
     console.log(allVideoGames)
     const allGenres = useSelector(state => state.genres);
-    const error = useSelector(state => state.error)
+    
+    const [searchValue, setSearchValue] = useState(false)
     const [orden, setOrden]= useState("")
     
     //Seteo el paginado aqui y luego aplico la logica en el componente Paginado
@@ -58,10 +57,10 @@ export default function Home(){
          //setCurrentPage(1)
     }
     function handleSort(e){
-        //e.preventDefault()
+        e.preventDefault()
         dispatch(orderByName(e.target.value));
-        setOrden(`Ordenado ${e.target.value}`)
         setCurrentPage(1)
+        setOrden(`Ordenado ${e.target.value}`)
     }
     function handleSortByRating(e){
         dispatch(orderByRating(e.target.value));
@@ -70,8 +69,6 @@ export default function Home(){
     }
     
     
-
-
     return(
         <div className={styles.homeContainer}>
             <div className={styles.wallpaperContainer}>
@@ -165,8 +162,9 @@ export default function Home(){
                         
                     }
                 </div>
-                :  
-                <div className={styles.loadingCard}>
+                : !allVideoGames.length && searchValue 
+                ? <h2> <Loading/></h2>
+                :<div className={styles.loadingCard}>
                     <Loading/>
 
                 </div>

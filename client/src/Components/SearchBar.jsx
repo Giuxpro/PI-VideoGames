@@ -15,13 +15,15 @@ export default function SearchBar(){
     function handleInputChange(e){
         e.preventDefault();
         setName(e.target.value)
-      
+    
     }
 
     function handleSubmit(e){
         e.preventDefault();
+        
         dispatch(getNameVideoGame(name))
         setName("")
+        
     
     }
 

@@ -42,7 +42,7 @@ export default function VideoGamesCreate() {
     
     
     const [errorValidated, setErrorValidated] = useState({})
-    const [errorButton, setErrorButton] = useState(errorValidated.length < 1? false : true);
+    // const [errorButton, setErrorButton] = useState(errorValidated.length < 1? false : true);
     const [input, setInput] = useState({
         
         name:"",
@@ -104,7 +104,7 @@ export default function VideoGamesCreate() {
 
     function handleSubmit(e){
         e.preventDefault()
-   
+        let regexRating =/[+-]?([0-9]*[.])?\b[0-5]{1,1}\b/; //regex 1-5 decimal inclusive
         let expReg = /^\b[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s0-9]+$/;
         if(!input.name){
             return alert('Enter game name');
@@ -112,7 +112,7 @@ export default function VideoGamesCreate() {
             return alert('The name must only have letters or numbers')
         }else if(!input.released){
             return alert('Enter a released date');
-        }else if(!input.rating ||(input.rating < 0 || input.rating > 5)){
+        }else if(!regexRating.test(input.rating)) {
             return alert('Enter a rating from 0 to 5 (Integer or Float)');
         }else if(!input.genres.length){
             return alert('Select at least 1 genres');
@@ -213,7 +213,7 @@ export default function VideoGamesCreate() {
                                 name="image"
                                 required=""
                                 autoComplete="off"
-                                placeholder="Image"
+                                placeholder="http://image_path.jpg"
                                 onChange={e =>handleChange(e)}
                             />
                         </div>
