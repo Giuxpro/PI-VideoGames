@@ -41,8 +41,8 @@ export default function VideoGamesCreate() {
     const allGames = useSelector(state => state.videogames);
     
     
-    const [errorValidated, setErrorValidated] = useState({})
-    // const [errorButton, setErrorButton] = useState(errorValidated.length < 1? false : true);
+    // const [errorValidated, setErrorValidated] = useState({})
+    
     const [input, setInput] = useState({
         
         name:"",
@@ -75,7 +75,7 @@ export default function VideoGamesCreate() {
     function handleSelectForGenres(e){
         setInput({
             ...input,
-            genres: [...input.genres, e.target.value]
+            genres: [...new Set([...input.genres, e.target.value])]
             
         })
         
@@ -91,7 +91,7 @@ export default function VideoGamesCreate() {
     function handleSelectForPlatform(e){
         setInput({
             ...input,
-            platforms: [...input.platforms, e.target.value]
+            platforms: [...new Set([...input.platforms, e.target.value])]
         })
     }
 
@@ -101,11 +101,12 @@ export default function VideoGamesCreate() {
             platforms: input.platforms.filter(plat => plat !== e)
         })
     }
-
+    let regexRating =/[+-]?([0-9]*[.])?\b[0-5]{1,1}\b/; //regex 1-5 decimal inclusive
+    let expReg = /^\b[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s0-9]+$/;
     function handleSubmit(e){
         e.preventDefault()
-        let regexRating =/[+-]?([0-9]*[.])?\b[0-5]{1,1}\b/; //regex 1-5 decimal inclusive
-        let expReg = /^\b[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s0-9]+$/;
+        // let regexRating =/[+-]?([0-9]*[.])?\b[0-5]{1,1}\b/; //regex 1-5 decimal inclusive
+        // let expReg = /^\b[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s0-9]+$/;
         if(!input.name){
             return alert('Enter game name');
         }else if(!expReg.test(input.name)){
@@ -170,8 +171,8 @@ export default function VideoGamesCreate() {
                                 placeholder="Name"
                                 onChange={e =>handleChange(e)}
                             />
-                           
-                            {errorValidated.name? <h4 className={styles.msjInputError}>{errorValidated.name}</h4>: false}
+                            
+                            {!input.name || !expReg.test(input.name)? <h4 className={styles.msjInputError}>{"Enter a Valid Name"}</h4>: false}
                         </div>
                         {/* --------------------------------------- */}
                         
@@ -186,7 +187,7 @@ export default function VideoGamesCreate() {
                                 autoComplete="off"
                                 onChange={e =>handleChange(e)}
                             />
-                            {errorValidated.released? <h4 className={styles.msjInputError}>{errorValidated.released}</h4>: false}
+                            {/* {!input.released || !regexRating.test(input.rating)? <h4 className={styles.msjInputError}>{"Enter a released date"}</h4>: false} */}
                         </div>
                         {/* ---------------------------------------- */}
                         <div className={styles.divContainer}>
@@ -201,7 +202,7 @@ export default function VideoGamesCreate() {
                                     placeholder="Rating"
                                     onChange={e =>handleChange(e)}
                                 />
-                                {errorValidated.rating? <h4 className={styles.msjInputError}>{errorValidated.rating}</h4>: false}
+                                {/* {input.rating? <h4 className={styles.msjInputError}>{input.rating}</h4>: false} */}
                             </div>
                         {/* --------------------------------------- */}
                         <div className={styles.divContainer}>
@@ -230,7 +231,7 @@ export default function VideoGamesCreate() {
                                 placeholder="Description"
                                 onChange={e =>handleChange(e)}
                             />
-                            {errorValidated.description? <h4 className={styles.msjInputError}>{errorValidated.description}</h4>: false} 
+                            {/* {input.description? <h4 className={styles.msjInputError}>{input.description}</h4>: false}  */}
                         </div>
                         {/* --------------------------------------- */}
                         <div className={styles.selectContainer}>

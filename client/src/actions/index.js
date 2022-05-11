@@ -93,3 +93,10 @@ export function clearDatail(){
         type:"RESET_DETAIL"
     }
 }
+
+export function ratingLow(payload){
+    return{
+        type: "LOW_RATING",
+        payload: payload
+    }
+}

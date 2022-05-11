@@ -32,6 +32,7 @@ export default function SearchBar(){
             <input 
             className={styles.searchInput}
             type="text"
+            value={name}
             placeholder="Search..."
             onChange={e=> handleInputChange(e)}
             />

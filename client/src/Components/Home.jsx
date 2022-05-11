@@ -2,7 +2,7 @@ import React from "react"
 import { useState,useEffect } from "react"
 import {useDispatch, useSelector} from "react-redux"
 import {Link} from "react-router-dom";
-import { getVideoGame, getGenres, filterVideoGameByGenres, filterByCreated, orderByName, orderByRating } from "../actions"
+import { getVideoGame, getGenres, filterVideoGameByGenres, filterByCreated, orderByName, orderByRating, ratingLow } from "../actions"
 import Card from "./Card"
 import Paginado from "./Paginado";
 import GenreSelectOption from "./Genres"
@@ -16,10 +16,9 @@ import Loading from "./Loading";
 export default function Home(){
     const dispatch = useDispatch()
     const allVideoGames = useSelector(state => state.videogames);
-    console.log(allVideoGames)
     const allGenres = useSelector(state => state.genres);
     
-    const [searchValue, setSearchValue] = useState(false)
+    
     const [orden, setOrden]= useState("")
     
     //Seteo el paginado aqui y luego aplico la logica en el componente Paginado
@@ -67,6 +66,10 @@ export default function Home(){
         setOrden(`Ordenado ${e.target.value}`)
         setCurrentPage(1)
     }
+    function handleRatinglow(e){
+        dispatch(ratingLow())
+        
+    }
     
     
     return(
@@ -106,11 +109,16 @@ export default function Home(){
            
            
            <div className={styles.homeSideAndCards}> 
+
                <div >
+                   
+                     
+                   
+                   
                     <div className={styles.homeSideOptions}>
                         <Link to="/videogame"><button className={styles.homeOptionBtn}>Create VideoGame</button></Link>
                         <button className={styles.homeOptionBtn} onClick={(e)=>handleClick(e)}>Reload VideoGame</button>
-                    
+                        <div><button className={styles.homeOptionBtn} onClick={e => handleRatinglow(e)}> Filter All Low Rating</button></div>
                         <select className={styles.homeSelectBtn} onChange={e => handleSort(e)}>
                             <option value="alpha">Alphabetically Sort</option>
                             <option value="asc">Sort:  A - Z</option>
@@ -126,6 +134,7 @@ export default function Home(){
                             <option value="Hight">Hight Rating</option>
                             <option value="Low">Low Rating</option>
                         </select>
+                        
                         <select className={styles.homeSelectBtn} onChange={e => handleFilterGenres(e)}>
                             <option value="Genres">All Genres</option>
                             <GenreSelectOption 
@@ -140,7 +149,7 @@ export default function Home(){
               
                 <div className={styles.homeCardContainer}>
                     {
-                    
+                        
                     currentVideoGames?.map( (e) => {
                             return(
                                
@@ -162,12 +171,10 @@ export default function Home(){
                         
                     }
                 </div>
-                : !allVideoGames.length && searchValue 
-                ? <h2> <Loading/></h2>
-                :<div className={styles.loadingCard}>
+                : <div className={styles.loadingCard}>
                     <Loading/>
 
-                </div>
+                 </div>
               
             }
             </div>

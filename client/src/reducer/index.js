@@ -68,6 +68,14 @@ function rootReducer (state= initialState, action){
                 ...state,
                 videogames: sortGame
             }
+        case "LOW_RATING":
+                const lowRating = state.backUpGames;
+                const newLowRating = lowRating.filter(e => e.rating <= 2 )
+                 
+        return{
+            ...state,
+            videogames:newLowRating
+        }
         
         case "ORDER_BY_RATING":
             
@@ -99,7 +107,7 @@ function rootReducer (state= initialState, action){
             }
         
         case "GET_VIDEOGAME_BY_NAME":
-                // const gameName = !action.payload || action.payload == []? action.payload : alert('Game Not Fount');
+             
             return {
                 ...state,
                 videogames:action.payload,
