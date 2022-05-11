@@ -5,9 +5,7 @@ require('dotenv').config();
 const axios = require("axios");
 const { Videogame, Genre } = require("../db")
 const {API_KEY} = process.env;
-const {
-  Op
-} = require("sequelize")
+const { Op } = require("sequelize")
 
 const router = Router();
 
@@ -40,7 +38,6 @@ const getApiInfo = async () => {
                     genres: e.genres.map( e => e.name),
                     description: e.description,
                     
-                    // requirements:e.requirements_en? Object.keys(e.requirements_en): "Requirement Not Found",
                 }
                     
                 return objInfo;
@@ -89,40 +86,12 @@ const allGamesInfo = async () =>{
 }
 
 
-// router.get("/videogames", async (req, res) => {
-//     const {name} = req.query;
-//     const videoGamesInfo = await allGamesInfo();
-
-//     if(name){
-//        let videoGameName = await videoGamesInfo.filter( e => e.name.toLowerCase().includes(name.toLowerCase()));
-//        let gameArr=[];
-//        let aux = 15;
-//        for(let i = 0; i < aux; i++){
-//            if(videoGameName[i]){
-//             gameArr.push(videoGameName[i])
-//            }
-//        }
-//        gameArr.length?
-//        res.status(200).send(gameArr):
-//        res.status(404).send("Game Not Found")
-//     }
-//     else{
-
-//         res.status(200).json(videoGamesInfo)
-//     }
-    
-// })
 
 router.get("/videogames", async (req, res) => {
 
-
   try {
 
-
-
-      const {
-          name
-      } = req.query;
+      const { name } = req.query;
 
       let videogameAllName = await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`);
 
@@ -167,15 +136,15 @@ router.get("/videogames", async (req, res) => {
           videogameName = videogameDb.concat(videogameName)
 
           if (videogameName.length) {
-              res.status(200).send(videogameName)
+              res.status(200).json(videogameName)
           } else {
-              res.status(404).send("No existe ese videojuego");
+              res.status(404).json(["No existe ese videojuego"]);
           }
       } else {
 
           let allVideogames = await allGamesInfo();
 
-          res.status(200).send(allVideogames);
+          res.status(200).json(allVideogames);
       }
 
   } catch (error) {
@@ -227,9 +196,7 @@ router.get("/videogame/:id", async (req,res) =>{
 
 router.get("/genres", async (req,res) =>{
    
-    const apiGenreInfo = await axios.get(
-        `https://api.rawg.io/api/genres?key=${API_KEY}`
-      );
+    const apiGenreInfo = await axios.get(`https://api.rawg.io/api/genres?key=${API_KEY}`);
       const { results } = apiGenreInfo.data;
       //Itero cada uno de los resultados para extraer las propiedades name, si existe no la creo y si no existe la creo
       for (let i = 0; i < results.length; i++) {
@@ -266,7 +233,7 @@ router.post("/videogame", async (req,res) =>{
         where: {name: genres }
     
     });
-    //console.log(findGenres)
+    
     newVideogame.addGenres(findGenres);
     res.send("VideoGame Created Successfully")
     //res.send(newVideogame)
