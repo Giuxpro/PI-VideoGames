@@ -93,7 +93,9 @@ export default function Home(){
                 </div>
                 <div className={styles.searchAndPaginado}>
                     <div className={styles.homeSearchBar}>
-                        <SearchBar/>  
+                        <SearchBar
+                            setCurrentPage={setCurrentPage}
+                        />  
                     </div>
                     <div>
                         <Paginado

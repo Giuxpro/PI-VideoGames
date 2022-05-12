@@ -21,7 +21,7 @@ export default function VideoGameDetail(){
 
     const videoGameDetail = useSelector((state)=> state.detail)
     
-
+    var regexUrl = /[a-z0-9-\.]+\.[a-z]{2,4}\/?([^\s<>\#%"\,\{\}\\|\\\^\[\]`]+)?$/;
     return(
 
         <div className={styles.firstContainer} key={videoGameDetail.id}>
@@ -30,7 +30,7 @@ export default function VideoGameDetail(){
                 videoGameDetail.name?
                 
                 <div className={styles.detailContainer} key={videoGameDetail.id}>
-                    <img className={styles.gameImg}src={videoGameDetail.image? videoGameDetail.image : img} alt="File Not Found" width="300px" hight="300px"/>
+                    <img className={styles.gameImg}src={regexUrl.test(videoGameDetail.image)? videoGameDetail.image : img} alt="File Not Found" width="300px" hight="300px"/>
                     <div className={styles.gameDetail} key={videoGameDetail.id}>
                         <h1>{videoGameDetail.name}</h1>
                         <p><strong>Released: </strong>{videoGameDetail.released}</p>

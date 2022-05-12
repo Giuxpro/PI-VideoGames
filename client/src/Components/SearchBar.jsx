@@ -5,7 +5,7 @@ import { getNameVideoGame } from "../actions";
 import styles from "./SearchBar.module.css"
 
 
-export default function SearchBar(){
+export default function SearchBar({setCurrentPage}){
     const dispatch = useDispatch();
     const [name,setName] = useState("")
 
@@ -20,7 +20,7 @@ export default function SearchBar(){
 
     function handleSubmit(e){
         e.preventDefault();
-        
+        setCurrentPage(1)
         dispatch(getNameVideoGame(name))
         setName("")
         
