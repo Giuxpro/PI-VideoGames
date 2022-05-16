@@ -147,14 +147,14 @@ export default function Home(){
                 </div>
             
             {
-                allVideoGames.length> 0?
+                
               
                 <div className={styles.homeCardContainer}>
                     {
-                        
-                    currentVideoGames?.map( (e) => {
+                       currentVideoGames.length? 
+                         currentVideoGames?.map( (e) => {
                             return(
-                               
+                               e.Error? <h3 className={styles.errorMsj}>VideoGame No Existe</h3>:
                                 <div className={styles.homeCard} key={e.id}>
                                     <Link to={"/videogame/" + e.id} className={styles.homeCardLink}>
                                         
@@ -170,13 +170,15 @@ export default function Home(){
                                
                             )
                         })
+                        : <div className={styles.homeLoadingContainer}>
+                            <div className={styles.loadingCard}>
+                                <Loading/>
+                            </div>
+                          </div>
                         
                     }
                 </div>
-                : <div className={styles.loadingCard}>
-                    <Loading/>
-
-                 </div>
+                
               
             }
             </div>

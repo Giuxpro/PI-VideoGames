@@ -117,6 +117,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+   
 }
 .homeCard{
     display: flex ;
@@ -140,9 +141,19 @@
 .homeCardLink{
     text-decoration: none;
 } 
+.homeLoadingContainer{
+    width: 1200px;
+}
 
 .loadingCard{
     display: flex;
     justify-content: center;
     width: 100%;
+}
+
+.errorMsj{
+    color: antiquewhite;
+    width: 1200px;
+    text-align: center;
+
 }

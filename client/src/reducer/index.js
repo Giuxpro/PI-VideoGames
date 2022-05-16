@@ -110,7 +110,7 @@ function rootReducer (state= initialState, action){
              
             return {
                 ...state,
-                videogames:action.payload,
+                videogames:action.payload.err?[{Error:"No videogames Found"}] : action.payload,
                 
             }
           
