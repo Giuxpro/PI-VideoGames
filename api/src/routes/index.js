@@ -136,9 +136,9 @@ router.get("/videogames", async (req, res) => {
           videogameName = videogameDb.concat(videogameName)
 
           if (videogameName.length) {
-              res.status(200).json(videogameName)
+             return res.status(200).json(videogameName)
           } else {
-              res.status(404).json(["No existe ese videojuego"]);
+             return res.json({err:"No existe ese videojuego"});
           }
       } else {
 
