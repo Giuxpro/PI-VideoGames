@@ -3,7 +3,7 @@ import axios from "axios"
 
 export function getVideoGame(){
     return async function(dispatch){
-        var json = await axios.get("http://localhost:3001/videogames")
+        var json = await axios.get("/videogames")
         
         return dispatch({
             type: "GET_GAME",
@@ -14,7 +14,7 @@ export function getVideoGame(){
 
 export function getGenres(){
     return async function(dispatch){
-        var json = await axios.get("http://localhost:3001/genres")
+        var json = await axios.get("/genres")
         return dispatch({
             type: "GET_GENRE",
             payload: json.data
@@ -55,7 +55,7 @@ export function orderByRating(payload){
 export function getNameVideoGame(payload){
     return async function(dispatch){
         try{
-            var json = await axios.get(`http://localhost:3001/videogames?name=${payload}`)
+            var json = await axios.get(`/videogames?name=${payload}`)
             return dispatch({
                 type: "GET_VIDEOGAME_BY_NAME",
                 payload: json.data,
@@ -69,7 +69,7 @@ export function getNameVideoGame(payload){
 
 export function postVideoGame(payload){
     return async function(dispatch){
-        const response = await axios.post(`http://localhost:3001/videogame`,payload)
+        const response = await axios.post(`/videogame`,payload)
         return response;
     }
 }
@@ -77,7 +77,7 @@ export function postVideoGame(payload){
 export function getDetail(id){
     return async function(dispatch){
         try{
-            var json = await axios.get(`http://localhost:3001/videogame/${id}`)
+            var json = await axios.get(`/videogame/${id}`)
             return dispatch({
                 type: "GET_DETAILS",
                 payload: json.data
