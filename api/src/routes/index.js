@@ -17,7 +17,7 @@ const getApiInfo = async () => {
   
     page.forEach((e) => {
       querries.push(
-        axios.get(`https://api.rawg.io/api/games?key=${API_KEY}&page=${e}`)
+        axios.get(`https://api.rawg.io/api/games?key=46cb4bc503654227a6f6692ade4a82eb&page=${e}`)
       );
     });
   
@@ -93,7 +93,7 @@ router.get("/videogames", async (req, res) => {
 
       const { name } = req.query;
 
-      let videogameAllName = await axios.get(`https://api.rawg.io/api/games?search=${name}&key=${API_KEY}`);
+      let videogameAllName = await axios.get(`https://api.rawg.io/api/games?search=${name}&key=46cb4bc503654227a6f6692ade4a82eb`);
 
       if (name) {
 
@@ -177,7 +177,7 @@ router.get("/videogame/:id", async (req,res) =>{
     }
 
     else{
-      const videoGameInfoId = await axios.get(`https://api.rawg.io/api/games/${id}?key=${API_KEY}`);
+      const videoGameInfoId = await axios.get(`https://api.rawg.io/api/games/${id}?key=46cb4bc503654227a6f6692ade4a82eb`);
       let gameDetail ={
         image: videoGameInfoId.data.background_image,
         name: videoGameInfoId.data.name,
@@ -196,7 +196,7 @@ router.get("/videogame/:id", async (req,res) =>{
 
 router.get("/genres", async (req,res) =>{
    
-    const apiGenreInfo = await axios.get(`https://api.rawg.io/api/genres?key=${API_KEY}`);
+    const apiGenreInfo = await axios.get(`https://api.rawg.io/api/genres?key=46cb4bc503654227a6f6692ade4a82eb`);
       const { results } = apiGenreInfo.data;
       //Itero cada uno de los resultados para extraer las propiedades name, si existe no la creo y si no existe la creo
       for (let i = 0; i < results.length; i++) {
